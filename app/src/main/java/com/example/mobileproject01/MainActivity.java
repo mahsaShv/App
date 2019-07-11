@@ -32,13 +32,27 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ArrayList<Topic> topics = new ArrayList<Topic>();
         ArrayList<News> news = new ArrayList<News>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        newsRecyclerView = (RecyclerView) findViewById(R.id.topics);
+
+        topicsRecyclerView = (RecyclerView) findViewById(R.id.topics);
+        topicsRecyclerView.setHasFixedSize(false);
+
+        topicsLayoutManager = new LinearLayoutManager(this);
+        ((LinearLayoutManager) topicsLayoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
+        topicsRecyclerView.setLayoutManager(topicsLayoutManager);
+
+        topicsMAdapter = new TopicsAdapter(topics);
+        topicsRecyclerView.setAdapter(topicsMAdapter);
+
+
+        newsRecyclerView = (RecyclerView) findViewById(R.id.news);
         newsRecyclerView.setHasFixedSize(false);
 
         newsLayoutManager = new LinearLayoutManager(this);
+        ((LinearLayoutManager) newsLayoutManager).setOrientation(LinearLayoutManager.VERTICAL);
         newsRecyclerView.setLayoutManager(newsLayoutManager);
 
         newsMAdapter = new MyAdapter(news);
