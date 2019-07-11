@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+//        AppBarConfiguration appBarConfiguration =
     }
 
 
