@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Telgeram</string>
     <string name="get_button">Get</string>
+    <string name="profile_pic_name">Profile picture</string>
     <string name="refresh_button">Refresh</string>
     <string name="clear_button">Clear</string>
 </resources>
