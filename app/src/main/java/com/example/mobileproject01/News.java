@@ -3,12 +3,21 @@ package com.example.mobileproject01;
 import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 
 public class News {
+    private int id;
     private String title;
     private String date;
     private String link;
     private int websiteID;
     private String imageAddress;
-    private String subCategory = "";
+    private String body;
+
+    public int getId() {
+        return id;
+    }
+
+    public String getBody() {
+        return body;
+    }
 
     public String getDate() {
         return date;
@@ -26,9 +35,6 @@ public class News {
         return imageAddress;
     }
 
-    public String getSubCategory() {
-        return subCategory;
-    }
 
     public String getTitle() {
         return title;
@@ -42,10 +48,6 @@ public class News {
         this.imageAddress = imageAddress;
     }
 
-    public void setSubCategory(String subCategory) {
-        this.subCategory = subCategory;
-    }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -56,5 +58,13 @@ public class News {
 
     public void setWebsiteID(int websiteID) {
         this.websiteID = websiteID;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 }

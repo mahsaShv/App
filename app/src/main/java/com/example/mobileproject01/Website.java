@@ -2,21 +2,21 @@ package com.example.mobileproject01;
 
 public class Website {
     private int id;
+    private String title;
     private String URL;
     private int categoryID;
-
-    public Website(int id, String URL, int category) {
-        this.id = id;
-        this.categoryID = categoryID;
-        this.URL = URL;
-    }
+    private int isSelected;
 
     public String getURL() {
         return URL;
     }
 
-    public int getCategoryID() {
-        return categoryID;
+    public String getTitle() {
+        return title;
+    }
+
+    public int getIsSelected() {
+        return isSelected;
     }
 
     public int getId() {
@@ -27,11 +27,24 @@ public class Website {
         this.URL = URL;
     }
 
-    public void setCategory(int categoryID) {
-        this.categoryID = categoryID;
-    }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getCategoryID() {
+        return categoryID;
+    }
+
+    public void setIsSelected(int isSelected) {
+        this.isSelected = isSelected;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
     }
 }
