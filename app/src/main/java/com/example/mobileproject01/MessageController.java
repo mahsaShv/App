@@ -1,6 +1,8 @@
 package com.example.mobileproject01;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.SystemClock;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -42,12 +44,30 @@ public class MessageController {
     public ArrayList<News> getNews(Category category) {
         ArrayList<Website> websites  = storageManager.getWebsites(category);
 
+        if (isConnectedToNetwork(context)){
+
+        }
 
         return storageManager.getNews(category);
-        //todo: get news from server in another thread and return news from database until the news are ready
+
+
     }
 
-    //TODO from storage or connection?
+
+    public boolean isConnectedToNetwork(Context context) {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        boolean isConnected = false;
+        if (connectivityManager != null) {
+            NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+            isConnected = (activeNetwork != null) && (activeNetwork.isConnectedOrConnecting());
+        }
+
+        return isConnected;
+    }
+
+
 
 
 }
