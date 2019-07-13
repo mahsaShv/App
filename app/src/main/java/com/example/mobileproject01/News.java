@@ -9,7 +9,6 @@ public class News {
     private String link;
     private int websiteID;
     private String imageAddress;
-    private String subCategory = "";
     private String body;
 
 
@@ -48,10 +47,6 @@ public class News {
         return imageAddress;
     }
 
-    public String getSubCategory() {
-        return subCategory;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -62,10 +57,6 @@ public class News {
 
     public void setImageAddress(String imageAddress) {
         this.imageAddress = imageAddress;
-    }
-
-    public void setSubCategory(String subCategory) {
-        this.subCategory = subCategory;
     }
 
     public void setTitle(String title) {
