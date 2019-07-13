@@ -143,6 +143,22 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return websites;
     }
 
+    public ArrayList<Website> getWebsites(Category category) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor result = db.rawQuery("select * from " + WEBSITE_TABLE_NAME + " where categoryID == " + category.getId() + " and categoryID == 1;", null);
+        ArrayList<Website> websites = new ArrayList<Website>();
+        for (result.moveToFirst(); !result.isAfterLast(); result.moveToNext()) {
+            Website website = new Website();
+            website.setId(result.getInt(0));
+            website.setTitle(result.getString(1));
+            website.setCategoryID(result.getInt(2));
+            website.setURL(result.getString(3));
+            website.setIsSelected(result.getInt(4));
+            websites.add(website);
+        }
+        return websites;
+    }
+
     public void insertNews(ArrayList<News> news) {
         SQLiteDatabase db = this.getWritableDatabase();
         for (News n:
@@ -181,7 +197,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public ArrayList<News> getNews(Category category) {
         ArrayList<News> news = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor result = db.rawQuery("select id from " + WEBSITE_TABLE_NAME + " where categoryID == " + category.getId() + ";", null);
+        Cursor result = db.rawQuery("select id from " + WEBSITE_TABLE_NAME + " where categoryID == " + category.getId() + " and isSelected == 1;", null);
         for (result.moveToFirst(); !result.isAfterLast(); result.moveToNext()) {
             news.addAll(getNews(result.getInt(0)));
         }
@@ -192,7 +208,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         Category category = new Category();
         category.setTitle(categoryName);
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor result = db.rawQuery("select id from " + CATEGORY_TABLE_NAME + " where title == " + category.getTitle() + ";", null);
+        Cursor result = db.rawQuery("select id from " + CATEGORY_TABLE_NAME + " where title == " + category.getTitle() + " and isSelected == 1;", null);
         result.moveToFirst();
         category.setId(result.getInt(0));
         return getNews(category);

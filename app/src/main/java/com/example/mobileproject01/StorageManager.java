@@ -63,6 +63,56 @@ public class StorageManager {
 
     }
 
+    ArrayList<Website> getWebsites(Category category) {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        final ArrayList<Website> websites = new ArrayList<>();
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                websites.addAll(databaseManager.getWebsites(category));
+
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return websites;
+
+    }
+
+    ArrayList<News> getNews(Category category) {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        final ArrayList<News> news = new ArrayList<>();
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                news.addAll(databaseManager.getNews(category));
+
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return news;
+
+    }
+
     void addCategoryToDatabase(String str) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         String[] props = str.split("\\s");

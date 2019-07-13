@@ -39,6 +39,14 @@ public class MessageController {
 
     }
 
+    public ArrayList<News> getNews(Category category) {
+        ArrayList<Website> websites  = storageManager.getWebsites(category);
+
+
+        return storageManager.getNews(category);
+        //todo: get news from server in another thread and return news from database until the news are ready
+    }
+
     //TODO from storage or connection?
 
 
