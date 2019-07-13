@@ -34,6 +34,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void insertCategory(Category category) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put("id", category.getId());
         contentValues.put("title", category.getTitle());
         contentValues.put("isSelected", category.getIsSelected());
         db.insert(CATEGORY_TABLE_NAME, null, contentValues);

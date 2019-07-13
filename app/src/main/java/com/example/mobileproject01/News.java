@@ -11,6 +11,16 @@ public class News {
     private String imageAddress;
     private String body;
 
+    public News() {
+
+    }
+
+    public News(String title, String date, String link) {
+        this.title = title;
+        this.date = date;
+        this.link = link;
+    }
+
     public int getId() {
         return id;
     }
