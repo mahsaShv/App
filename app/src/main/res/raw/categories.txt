@@ -5,4 +5,5 @@
 5 Near_You 1
 6 Technology 1
 7 Celebrity 0
-8 All 1
+8 Cinema 1
+9 All 1

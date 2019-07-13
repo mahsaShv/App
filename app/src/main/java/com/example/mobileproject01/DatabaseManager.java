@@ -9,13 +9,24 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 
 public class DatabaseManager extends SQLiteOpenHelper {
+
+    private static DatabaseManager SINGLE_INSTANCE = null;
+
     public static String DB_NAME = "database.db";
     public static String CATEGORY_TABLE_NAME = "Categories";
     public static String WEBSITE_TABLE_NAME = "Websites";
     public static String NEWS_TABLE_NAME = "News";
 
+    public static DatabaseManager getInstance(Context context) {
+        if (SINGLE_INSTANCE == null) {
+            synchronized (DatabaseManager.class) {
+                SINGLE_INSTANCE = new DatabaseManager(context);
+            }
+        }
+        return SINGLE_INSTANCE;
+    }
 
-    public DatabaseManager(Context context) {
+    private DatabaseManager(Context context) {
         super(context, DB_NAME, null, 1);
     }
 
@@ -82,6 +93,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void insertWebsite(Website website) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put("id", website.getId());
         contentValues.put("title", website.getTitle());
         contentValues.put("categoryID", website.getCategoryID());
         contentValues.put("url", website.getURL());

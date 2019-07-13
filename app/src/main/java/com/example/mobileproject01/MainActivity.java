@@ -37,6 +37,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements Observer {
 
     NotificationCenter notificationCenter = new NotificationCenter();
+    MessageController messageController;
 
 
     @Override
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-//        MessageController messageController = MessageController.getInstance(this);
+        messageController = MessageController.getInstance(this);
 //        messageController.connectionManager.funcOnAnotherThread();
         ArrayList<String> rssLinks = new ArrayList<>();
 

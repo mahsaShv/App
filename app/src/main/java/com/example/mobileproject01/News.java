@@ -9,13 +9,8 @@ public class News {
     private String link;
     private int websiteID;
     private String imageAddress;
-    private String subCategory = "";
+    private String body;
 
-    News(String title, String link ,String date){
-        this.title = title;
-        this.link = link;
-        this.date = date;
-       //todo image
     public News() {
 
     }
@@ -50,10 +45,6 @@ public class News {
         return imageAddress;
     }
 
-    public String getSubCategory() {
-        return subCategory;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -64,10 +55,6 @@ public class News {
 
     public void setImageAddress(String imageAddress) {
         this.imageAddress = imageAddress;
-    }
-
-    public void setSubCategory(String subCategory) {
-        this.subCategory = subCategory;
     }
 
     public void setTitle(String title) {

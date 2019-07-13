@@ -18,6 +18,7 @@ import java.util.concurrent.CountDownLatch;
 public class StorageManager {
 
     private static StorageManager SINGLE_INSTANCE = null;
+    public DatabaseManager databaseManager;
 
 
     public static StorageManager getInstance(Context context) {
@@ -34,7 +35,7 @@ public class StorageManager {
 
     private StorageManager(Context context) {
         this.context = context;
-
+        databaseManager = DatabaseManager.getInstance(context);
     }
 
 
@@ -73,7 +74,36 @@ public class StorageManager {
         storage.postRunnable(new Runnable() {
             @Override
             public void run() {
+                databaseManager.insertCategory(category);
+                countDownLatch.countDown();
 
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    void addWebsiteToDatabase(String str) {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        String[] props = str.split("\\s");
+        final Website website = new Website();
+        website.setId(Integer.parseInt(props[0]));
+        website.setTitle(props[1]);
+        website.setCategoryID(Integer.parseInt(props[2]));
+        website.setURL(props[3]);
+        website.setIsSelected(Integer.parseInt(props[4]));
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                databaseManager.insertWebsite(website);
                 countDownLatch.countDown();
 
             }
