@@ -36,7 +36,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        myViewHolder.textView.setText(mDataset.get(i).getName());
+        myViewHolder.textView.setText(mDataset.get(i).getTitle());
     }
 
     @Override
