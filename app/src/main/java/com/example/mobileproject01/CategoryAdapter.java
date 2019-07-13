@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.MyViewHolder> {
-    private ArrayList<Topic> mDataset;
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
+    private ArrayList<Category> mDataset;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
@@ -21,7 +21,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.MyViewHold
 
     }
 
-    public TopicsAdapter(ArrayList<Topic> myDataset) {
+    public CategoryAdapter(ArrayList<Category> myDataset) {
         mDataset = myDataset;
     }
 
