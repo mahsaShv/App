@@ -23,8 +23,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.http.ParseException;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+//import org.jsoup.Jsoup;
+//import org.jsoup.nodes.Document;
 
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;

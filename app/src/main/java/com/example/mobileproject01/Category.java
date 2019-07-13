@@ -1,9 +1,20 @@
 package com.example.mobileproject01;
 
+import android.graphics.drawable.Icon;
+
 public class Category {
     private int id;
     private String title;
     private int isSelected;
+    private Icon icon;
+
+    public void setIcon(Icon icon) {
+        this.icon = icon;
+    }
+
+    public Icon getIcon() {
+        return icon;
+    }
 
     public int getId() {
         return id;

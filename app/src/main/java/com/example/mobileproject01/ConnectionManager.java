@@ -3,10 +3,10 @@ package com.example.mobileproject01;
 import android.os.SystemClock;
 import android.widget.LinearLayout;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+//import org.jsoup.Jsoup;
+//import org.jsoup.nodes.Document;
+//import org.jsoup.nodes.Element;
+//import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;

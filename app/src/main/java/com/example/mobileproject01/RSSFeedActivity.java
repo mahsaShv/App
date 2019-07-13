@@ -3,6 +3,8 @@ package com.example.mobileproject01;
 import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -28,11 +30,30 @@ public class RSSFeedActivity extends ListActivity {
     private static String TAG_LINK = "link";
     private static String TAG_PUB_DATE = "pubDate";
 
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rssfeed);
+
+        ArrayList<Category> categories = new ArrayList<>();
+
+        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+        recyclerView.setHasFixedSize(true);
+
+        layoutManager = new LinearLayoutManager(this);
+        ((LinearLayoutManager) layoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(layoutManager);
+
+        mAdapter = new CategoryAdapter(categories);
+        recyclerView.setAdapter(mAdapter);
+
+
 
 
         String rss_link = getIntent().getStringExtra("rssLink");

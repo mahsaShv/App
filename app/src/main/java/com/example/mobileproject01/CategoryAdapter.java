@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -12,11 +14,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     private ArrayList<Category> mDataset;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView;
+        public LinearLayout linearLayout;
 
-        public MyViewHolder(TextView v) {
-            super(v);
-            textView = v;
+        public MyViewHolder(LinearLayout linearLayout) {
+            super(linearLayout);
+            this.linearLayout = linearLayout;
         }
 
     }
@@ -28,15 +30,22 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        TextView v = (TextView) LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.news_layout, viewGroup, false);
-
-        MyViewHolder vh = new MyViewHolder(v);
+        LinearLayout l = (LinearLayout) LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.news_layout, viewGroup, false);
+        MyViewHolder vh = new MyViewHolder(l);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        myViewHolder.textView.setText(mDataset.get(i).getTitle());
+        ImageView imageView = new ImageView(myViewHolder.linearLayout.getContext());
+        imageView.setImageIcon(mDataset.get(i).getIcon());
+        TextView t = new TextView(myViewHolder.linearLayout.getContext());
+        t.setText(mDataset.get(i).getTitle());
+
+        myViewHolder.linearLayout.addView(imageView);
+        myViewHolder.linearLayout.addView(t);
+//        myViewHolder.linearLayout.setMinimumHeight(20);
+        myViewHolder.linearLayout.setOrientation(LinearLayout.HORIZONTAL);
     }
 
     @Override

@@ -43,7 +43,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     //    compile 'org.jsoup:jsoup:1.12.1'
-    implementation files('/Users/mahsa_shv/Downloads/jsoup-1.12.1.jar')
+//    implementation files('/Users/mahsa_shv/Downloads/jsoup-1.12.1.jar')
 
 //    implementation group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
     implementation 'org.apache.httpcomponents:httpcore:4.4.1'
