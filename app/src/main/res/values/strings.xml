@@ -4,4 +4,5 @@
     <string name="profile_pic_name">Profile picture</string>
     <string name="refresh_button">Refresh</string>
     <string name="clear_button">Clear</string>
+    <color name="border">#393e46</color>
 </resources>

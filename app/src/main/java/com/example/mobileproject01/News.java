@@ -10,21 +10,19 @@ public class News {
     private int websiteID;
     private String imageAddress;
     private String subCategory = "";
+    private String body;
 
-    News(String title, String link ,String date){
+
+    public News(String title, String link ,String date) {
         this.title = title;
         this.link = link;
         this.date = date;
-       //todo image
+        //todo image
+    }
     public News() {
 
     }
 
-    public News(String title, String date, String link) {
-        this.title = title;
-        this.date = date;
-        this.link = link;
-    }
 
     public int getId() {
         return id;
