@@ -19,6 +19,7 @@ public class StorageManager {
 
     private static StorageManager SINGLE_INSTANCE = null;
 
+
     public static StorageManager getInstance(Context context) {
         if (SINGLE_INSTANCE == null) {
             synchronized (StorageManager.class) {
@@ -46,6 +47,33 @@ public class StorageManager {
             public void run() {
 
                 //TODO
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    void addCategoryToDatabase(String str) {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        String[] props = str.split("\\s");
+        final Category category = new Category();
+        category.setId(Integer.parseInt(props[0]));
+        category.setTitle(props[1]);
+        category.setIsSelected(Integer.parseInt(props[2]));
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
                 countDownLatch.countDown();
 
             }

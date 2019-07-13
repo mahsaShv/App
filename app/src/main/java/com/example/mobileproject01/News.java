@@ -3,6 +3,7 @@ package com.example.mobileproject01;
 import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 
 public class News {
+    private int id;
     private String title;
     private String date;
     private String link;
@@ -15,7 +16,22 @@ public class News {
         this.link = link;
         this.date = date;
        //todo image
+    public News() {
 
+    }
+
+    public News(String title, String date, String link) {
+        this.title = title;
+        this.date = date;
+        this.link = link;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getBody() {
+        return body;
     }
 
     public String getDate() {
@@ -66,7 +82,11 @@ public class News {
         this.websiteID = websiteID;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
-
-
+    public void setBody(String body) {
+        this.body = body;
+    }
 }
