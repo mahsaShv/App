@@ -4,8 +4,8 @@
 4 Guardian 9 https://www.theguardian.com/world/rss 1
 5 GoogleNews 9 https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx1YlY4U0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US:en 1
 6 EuroNews 9 https://www.euronews.com/rss?level=theme&name=news 1
-7 ESPN 0 https://www.espn.com/espn/rss/news 1
-8 SportsFlash 0 https://sportsflashes.com/feed/index/1 1
+7 ESPN 1 https://www.espn.com/espn/rss/news 1
+8 SportsFlash 1 https://sportsflashes.com/feed/index/1 1
 9 People 7 https://people.com/feed/ 1
 10 Hollywood 7 https://hollywoodlife.com/feed/ 1
 11 TechReview 6 https://www.technologyreview.com/topnews.rss 1
