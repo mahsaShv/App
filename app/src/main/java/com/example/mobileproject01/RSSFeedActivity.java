@@ -1,11 +1,15 @@
 package com.example.mobileproject01;
 
 import android.app.ListActivity;
+import android.graphics.Color;
+import android.graphics.drawable.Icon;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -23,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+//import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,6 +47,7 @@ public class RSSFeedActivity extends ListActivity implements Observer{
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private DividerItemDecoration dividerItem;
 
     MessageController messageController;
 
@@ -55,20 +61,24 @@ public class RSSFeedActivity extends ListActivity implements Observer{
         readWebsitesFromFile(this);
 
 
+
         ArrayList<Category> categories = new ArrayList<>();
+        Icon.createWithFilePath("drawable-v24/rss.png");
+        categories.add(new Category(0, "Sports", 1));
+        categories.add(new Category(2, "Politics", 1));
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
 
-        layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(getApplicationContext());
         ((LinearLayoutManager) layoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new CategoryAdapter(categories);
+        mAdapter = new CategoryAdapter(getApplicationContext(), categories);
         recyclerView.setAdapter(mAdapter);
-
-
+        dividerItem = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.HORIZONTAL);
+        recyclerView.addItemDecoration(dividerItem);
 
 
         String rss_link = getIntent().getStringExtra("rssLink");
@@ -138,6 +148,10 @@ public class RSSFeedActivity extends ListActivity implements Observer{
         //TODO
     }
 
+    public void topic_chosen(View v) {
+        TextView t = v.findViewById(R.id.topic_title);
+        String chosen_topic = (String) t.getText();
+    }
 
     public class LoadRSSFeedItems extends AsyncTask<String, String, String> {
 
@@ -204,21 +218,7 @@ public class RSSFeedActivity extends ListActivity implements Observer{
                 rssItemList.add(map);
             }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            // updating UI from Background Thread
             runOnUiThread(new Runnable() {
                 public void run() {
                     ListAdapter adapter = new SimpleAdapter(
