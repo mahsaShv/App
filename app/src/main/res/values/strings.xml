@@ -5,4 +5,5 @@
     <string name="refresh_button">Refresh</string>
     <string name="clear_button">Clear</string>
     <color name="border">#393e46</color>
+    <color name="topic_text">#e76b42</color>
 </resources>

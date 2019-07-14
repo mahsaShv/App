@@ -8,6 +8,15 @@ public class Category {
     private int isSelected;
     private Icon icon;
 
+    public Category(int id, String title, int isSelected) {
+        this.setId(id);
+        this.setTitle(title);
+        this.setIsSelected(isSelected);
+    }
+
+    public Category() {
+    }
+
     public void setIcon(Icon icon) {
         this.icon = icon;
     }

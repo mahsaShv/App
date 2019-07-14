@@ -1,18 +1,25 @@
 package com.example.mobileproject01;
 
 import android.app.ListActivity;
+import android.graphics.Color;
+import android.graphics.drawable.Icon;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import org.apache.http.ParseException;
 
@@ -20,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+//import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +47,7 @@ public class RSSFeedActivity extends ListActivity implements Observer{
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private DividerItemDecoration dividerItem;
 
     MessageController messageController;
 
@@ -46,31 +55,46 @@ public class RSSFeedActivity extends ListActivity implements Observer{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rssfeed);
-        messageController = MessageController.getInstance(this);
+//        messageController = MessageController.getInstance(this);
 
         readCategoriesFromFile(this);
         readWebsitesFromFile(this);
 
 
+
         ArrayList<Category> categories = new ArrayList<>();
+        Icon.createWithFilePath("drawable-v24/rss.png");
+        categories.add(new Category(0, "Sports", 1));
+        categories.add(new Category(2, "Politics", 1));
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
 
-        layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(getApplicationContext());
         ((LinearLayoutManager) layoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new CategoryAdapter(categories);
+        mAdapter = new CategoryAdapter(getApplicationContext(), categories);
         recyclerView.setAdapter(mAdapter);
-
-
+        dividerItem = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.HORIZONTAL);
+        recyclerView.addItemDecoration(dividerItem);
 
 
         String rss_link = getIntent().getStringExtra("rssLink");
         new LoadRSSFeedItems().execute(rss_link);
         ListView lv = getListView();
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Intent in = new Intent(getApplicationContext(), WebActivity.class);
+                String page_url = ((TextView) view.findViewById(R.id.page_url)).getText().toString().trim();
+                in.putExtra("url", page_url);
+                startActivity(in);
+            }
+        });
 
 
     }
@@ -124,6 +148,10 @@ public class RSSFeedActivity extends ListActivity implements Observer{
         //TODO
     }
 
+    public void topic_chosen(View v) {
+        TextView t = v.findViewById(R.id.topic_title);
+        String chosen_topic = (String) t.getText();
+    }
 
     public class LoadRSSFeedItems extends AsyncTask<String, String, String> {
 
@@ -145,9 +173,50 @@ public class RSSFeedActivity extends ListActivity implements Observer{
 
         @Override
         protected String doInBackground(String... args) {
-//            messageController.getNews();
+
+//            messageController.getNews(,rssItems,rssItemList);
             //TODO inja get news seda mishavad
 
+
+            // updating UI from Background Thread
+
+
+
+
+
+
+
+            // rss link url
+            String rss_url = args[0];
+            // list of rss items
+            RSSParser rssParser = new RSSParser();
+            rssItems = rssParser.getRSSFeedItems(rss_url);
+            // looping through each item
+            for (final News item : rssItems) {
+                // creating new HashMap
+                if (item.getLink().toString().equals(""))
+                    break;
+                HashMap<String, String> map = new HashMap<String, String>();
+
+                // adding each child node to HashMap key => value
+                String givenDateString = item.getDate().trim();
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+                try {
+                    Date mDate = sdf.parse(givenDateString);
+                    SimpleDateFormat sdf2 = new SimpleDateFormat("EEEE, dd MMMM yyyy - hh:mm a", Locale.US);
+                    item.setDate(sdf2.format(mDate));
+
+                } catch (ParseException | java.text.ParseException e) {
+                    e.printStackTrace();
+
+                }
+
+                map.put(TAG_TITLE, item.getTitle());
+                map.put(TAG_LINK, item.getLink());
+                map.put(TAG_PUB_DATE, item.getDate());
+                // adding HashList to ArrayList
+                rssItemList.add(map);
+            }
 
             // updating UI from Background Thread
             runOnUiThread(new Runnable() {
