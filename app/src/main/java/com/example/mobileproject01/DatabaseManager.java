@@ -13,9 +13,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private static DatabaseManager SINGLE_INSTANCE = null;
 
     public static String DB_NAME = "database.db";
-    public static String CATEGORY_TABLE_NAME = "Categories";
-    public static String WEBSITE_TABLE_NAME = "Websites";
-    public static String NEWS_TABLE_NAME = "News";
+    public static String CATEGORY_TABLE_NAME = "categories";
+    public static String WEBSITE_TABLE_NAME = "websites";
+    public static String NEWS_TABLE_NAME = "news";
 
     public static DatabaseManager getInstance(Context context) {
         if (SINGLE_INSTANCE == null) {

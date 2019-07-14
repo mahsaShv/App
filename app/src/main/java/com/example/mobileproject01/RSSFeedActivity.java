@@ -1,6 +1,8 @@
 package com.example.mobileproject01;
 
 import android.app.ListActivity;
+import android.content.Context;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +16,10 @@ import android.widget.SimpleAdapter;
 
 import org.apache.http.ParseException;
 
-import java.text.ParseException;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,10 +27,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class RSSFeedActivity extends ListActivity {
+public class RSSFeedActivity extends ListActivity implements Observer{
     private ProgressBar pDialog;
     ArrayList<HashMap<String, String>> rssItemList = new ArrayList<>();
-    RSSParser rssParser = new RSSParser();
+
     List<News> rssItems = new ArrayList<>();
     private static String TAG_TITLE = "title";
     private static String TAG_LINK = "link";
@@ -35,11 +40,17 @@ public class RSSFeedActivity extends ListActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    MessageController messageController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rssfeed);
+        messageController = MessageController.getInstance(this);
+
+        readCategoriesFromFile(this);
+        readWebsitesFromFile(this);
+
 
         ArrayList<Category> categories = new ArrayList<>();
 
@@ -64,6 +75,55 @@ public class RSSFeedActivity extends ListActivity {
 
     }
 
+    private void readWebsitesFromFile(Context context) {
+        final Resources resources = context.getResources();
+        InputStream inputStream = resources.openRawResource(R.raw.websites);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        try {
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                messageController.storageManager.addWebsiteToDatabase(line);
+                line = bufferedReader.readLine();
+            }
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        } finally {
+            try {
+                bufferedReader.close();
+            } catch (Exception e) {
+                System.out.println(e.getStackTrace());
+            }
+
+        }
+    }
+
+    private void readCategoriesFromFile(Context context) {
+        final Resources resources = context.getResources();
+        InputStream inputStream = resources.openRawResource(R.raw.categories);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        try {
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                messageController.storageManager.addCategoryToDatabase(line);
+                line = bufferedReader.readLine();
+            }
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        } finally {
+            try {
+                bufferedReader.close();
+            } catch (Exception e) {
+                System.out.println(e.getStackTrace());
+            }
+
+        }
+    }
+
+    @Override
+    public void update() {
+        //TODO
+    }
+
 
     public class LoadRSSFeedItems extends AsyncTask<String, String, String> {
 
@@ -85,36 +145,9 @@ public class RSSFeedActivity extends ListActivity {
 
         @Override
         protected String doInBackground(String... args) {
-            // rss link url
-            String rss_url = args[0];
-            // list of rss items
-            rssItems = rssParser.getRSSFeedItems(rss_url);
-            // looping through each item
-            for (final News item : rssItems) {
-                // creating new HashMap
-                if (item.getLink().toString().equals(""))
-                    break;
-                HashMap<String, String> map = new HashMap<String, String>();
+//            messageController.getNews();
+            //TODO inja get news seda mishavad
 
-                // adding each child node to HashMap key => value
-                String givenDateString = item.getDate().trim();
-                SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
-                try {
-                    Date mDate = sdf.parse(givenDateString);
-                    SimpleDateFormat sdf2 = new SimpleDateFormat("EEEE, dd MMMM yyyy - hh:mm a", Locale.US);
-                    item.setDate(sdf2.format(mDate));
-
-                } catch (ParseException | java.text.ParseException e) {
-                    e.printStackTrace();
-
-                }
-
-                map.put(TAG_TITLE, item.getTitle());
-                map.put(TAG_LINK, item.getLink());
-                map.put(TAG_PUB_DATE, item.getDate());
-                // adding HashList to ArrayList
-                rssItemList.add(map);
-            }
 
             // updating UI from Background Thread
             runOnUiThread(new Runnable() {
