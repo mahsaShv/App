@@ -152,7 +152,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     public ArrayList<Website> getWebsites(Category category) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor result = db.rawQuery("select * from " + WEBSITE_TABLE_NAME + " where categoryID == " + category.getId() + " and categoryID == 1;", null);
+        Cursor result = db.rawQuery("select * from " + WEBSITE_TABLE_NAME + " where categoryID == " + category.getId() + " and isSelected == 1;", null);
         ArrayList<Website> websites = new ArrayList<Website>();
         for (result.moveToFirst(); !result.isAfterLast(); result.moveToNext()) {
             Website website = new Website();
