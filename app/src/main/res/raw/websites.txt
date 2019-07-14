@@ -1,2 +1,8 @@
 1 YahooNews 9 https://www.yahoo.com/news/world/rss 1
 2 CinemaBlend 8 http://www.cinemablend.com/rss_review.php 1
+3 Aljazeera 2 https://www.aljazeera.com/xml/rss/all.xml 1
+4 Guardian 9 https://www.theguardian.com/world/rss 1
+5 GoogleNews 9 https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx1YlY4U0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US:en 1
+6 EuroNews 9 https://www.euronews.com/rss?level=theme&name=news 1
+7
+8

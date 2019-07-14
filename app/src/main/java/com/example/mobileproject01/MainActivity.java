@@ -45,13 +45,12 @@ public class MainActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        messageController = MessageController.getInstance(this);
+//        messageController = MessageController.getInstance(this);
 //        messageController.connectionManager.funcOnAnotherThread();
         ArrayList<String> rssLinks = new ArrayList<>();
 
 //        rssLinks.add("https://www.aljazeera.com/xml/rss/all.xml");
 //        rssLinks.add("https://www.yahoo.com/news/world/rss");
-//        rssLinks.add("http://www.rediff.com/rss/moviesreviewsrss.xml");
 //        rssLinks.add("http://www.cinemablend.com/rss_review.php");
         rssLinks.add("https://www.theguardian.com/world/rss");
 //        rssLinks.add("https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx1YlY4U0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US:en");
