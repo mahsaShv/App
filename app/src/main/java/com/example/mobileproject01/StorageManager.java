@@ -63,6 +63,31 @@ public class StorageManager {
 
     }
 
+    void updateNews(ArrayList<News> news, Category category) {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                databaseManager.deleteNews(category);
+                databaseManager.insertNews(news);
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     ArrayList<Website> getWebsites(Category category) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final ArrayList<Website> websites = new ArrayList<>();

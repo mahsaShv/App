@@ -45,9 +45,9 @@ public class MessageController {
         ArrayList<Website> websites  = storageManager.getWebsites(category);
 
         if (isConnectedToNetwork(context)){
-            ArrayList<News> news;
-
-            //todo: save news to database - delete news first
+            ArrayList<News> news = new ArrayList<>();
+            //todo: get news from server
+            storageManager.updateNews(news, category);
         }
 
         return storageManager.getNews(category);
