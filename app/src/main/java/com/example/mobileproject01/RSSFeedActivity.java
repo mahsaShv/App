@@ -55,7 +55,7 @@ public class RSSFeedActivity extends ListActivity implements Observer{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rssfeed);
-//        messageController = MessageController.getInstance(this);
+        messageController = MessageController.getInstance(this);
 
         readCategoriesFromFile(this);
         readWebsitesFromFile(this);
