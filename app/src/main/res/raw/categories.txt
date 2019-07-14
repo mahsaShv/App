@@ -2,7 +2,7 @@
 2 Politics 1
 3 Nature 1
 4 Gaming 0
-5 Near_You 1
+5 NearYou 1
 6 Technology 1
 7 Celebrity 0
 8 Cinema 1

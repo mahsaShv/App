@@ -58,10 +58,28 @@ public class ConnectionManager {
 
     void getNews(ArrayList<Website> websites, List<News> rssItems, ArrayList<HashMap<String, String>> rssItemList) {
         // rss link url
-        //TODO hame site a?
-        String rss_url = websites.get(0).getURL();
+
+
+
+//        int max = 100 / websites.size();
         // list of rss items
-        rssItems = rssParser.getRSSFeedItems(rss_url);
+        int categoryID = websites.get(0).getCategoryID();
+        List<News> temp;
+        for (int i = 0; i <websites.size(); i++){
+            String rss_url = websites.get(i).getURL();
+            temp = rssParser.getRSSFeedItems(rss_url);
+
+            for (int j = 0; j < temp.size(); j++) {
+                temp.get(j).setWebsiteID(websites.get(i).getId());
+//                temp.get(j).setId(websites.get(i).getCategoryID());
+            }
+            rssItems.addAll(temp);
+        }
+        for(int i = 0; i < rssItems.size(); i++) {
+            rssItems.get(i).setId(categoryID * 1000 + i);
+        }
+
+
         // looping through each item
         for (final News item : rssItems) {
             // creating new HashMap
