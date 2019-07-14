@@ -96,6 +96,7 @@ public class StorageManager {
             @Override
             public void run() {
 
+
                 news.addAll(databaseManager.getNews(category));
 
                 countDownLatch.countDown();

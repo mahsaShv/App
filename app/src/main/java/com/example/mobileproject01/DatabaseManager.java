@@ -13,9 +13,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
     private static DatabaseManager SINGLE_INSTANCE = null;
 
     public static String DB_NAME = "database.db";
-    public static String CATEGORY_TABLE_NAME = "Categories";
-    public static String WEBSITE_TABLE_NAME = "Websites";
-    public static String NEWS_TABLE_NAME = "News";
+    public static String CATEGORY_TABLE_NAME = "categories";
+    public static String WEBSITE_TABLE_NAME = "websites";
+    public static String NEWS_TABLE_NAME = "news";
 
     public static DatabaseManager getInstance(Context context) {
         if (SINGLE_INSTANCE == null) {
@@ -27,7 +27,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     private DatabaseManager(Context context) {
-        super(context, DB_NAME, null, 1);
+        super(context, DB_NAME, null, 2);
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("create table if not exists " + CATEGORY_TABLE_NAME + " (id integer primary key autoincrement, title varchar(50), isSelected int);");
         db.execSQL("create table if not exists " + WEBSITE_TABLE_NAME + " (id integer primary key autoincrement, title varchar(50), categoryID int, url varchar(100), isSelected int);");
