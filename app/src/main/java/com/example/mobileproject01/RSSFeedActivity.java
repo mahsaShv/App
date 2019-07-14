@@ -64,8 +64,7 @@ public class RSSFeedActivity extends ListActivity implements Observer{
 
         ArrayList<Category> categories = new ArrayList<>();
         Icon.createWithFilePath("drawable-v24/rss.png");
-        categories.add(new Category(0, "Sports", 1));
-        categories.add(new Category(2, "Politics", 1));
+        categories = messageController.storageManager.getValidCategories();
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 

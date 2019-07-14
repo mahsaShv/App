@@ -62,11 +62,12 @@ public class MessageController {
             //todo: save news to database - delete news first
 //            notificationCenter.dataLoaded();
             //TODO lazeme?
-
-            return;
-            ArrayList<News> news = new ArrayList<>();
             //todo: get news from server
+            ArrayList<News> news = new ArrayList<>();
+            news.addAll(rssItems);
             storageManager.updateNews(news, category);
+            return;
+
         }
 
         else {

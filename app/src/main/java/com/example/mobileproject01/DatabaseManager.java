@@ -82,7 +82,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     public ArrayList<Category> getCategories() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor result = db.rawQuery("select * from " + CATEGORY_TABLE_NAME + ";", null);
+        Cursor result = db.rawQuery("select * from " + CATEGORY_TABLE_NAME + " where isSelected == 1;", null);
         ArrayList<Category> categories = new ArrayList<Category>();
         for (result.moveToFirst(); !result.isAfterLast(); result.moveToNext()) {
             Category category = new Category();
