@@ -4,5 +4,14 @@
 4 Guardian 9 https://www.theguardian.com/world/rss 1
 5 GoogleNews 9 https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx1YlY4U0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US:en 1
 6 EuroNews 9 https://www.euronews.com/rss?level=theme&name=news 1
-7
-8
+7 ESPN 0 https://www.espn.com/espn/rss/news 1
+8 SportsFlash 0 https://sportsflashes.com/feed/index/1 1
+9 People 7 https://people.com/feed/ 1
+10 Hollywood 7 https://hollywoodlife.com/feed/ 1
+11 TechReview 6 https://www.technologyreview.com/topnews.rss 1
+12 TechMeme 6 https://www.techmeme.com/feed.xml 1
+13 nyTimes 2 https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml 1
+14 XBox 4 https://news.xbox.com/en-us/feed/ 1
+15 gameInformer 4 https://www.gameinformer.com/rss.xml 1
+16 treeHugger 3 https://www.treehugger.com/feeds/latest 1
+17 mmn 3 https://www.mnn.com/rss/all-mnn-content 1
