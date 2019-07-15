@@ -63,6 +63,54 @@ public class StorageManager {
 
     }
 
+    boolean categoryTableIsEmpty() {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        ArrayList<Category> categories = new ArrayList<>();
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                categories.addAll(databaseManager.getAllCategories());
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return categories.size() == 0;
+
+    }
+
+    boolean websiteTableIsEmpty() {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        ArrayList<Website> websites = new ArrayList<>();
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                websites.addAll(databaseManager.getAllWebsites());
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return websites.size() == 0;
+
+    }
+
     ArrayList<Category> getValidCategories() {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final ArrayList<Category> categories = new ArrayList<>();

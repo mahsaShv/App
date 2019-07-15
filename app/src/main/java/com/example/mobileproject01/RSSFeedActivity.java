@@ -70,8 +70,12 @@ public class RSSFeedActivity extends ListActivity implements Observer {
         messageController = MessageController.getInstance(this);
         notificationCenter.register(this);
 
-        readCategoriesFromFile(this);
-        readWebsitesFromFile(this);
+        if(messageController.storageManager.categoryTableIsEmpty()) {
+            readCategoriesFromFile(this);
+        }
+        if(messageController.storageManager.websiteTableIsEmpty()) {
+            readWebsitesFromFile(this);
+        }
 
         shown_category.setId(8);
         shown_category.setTitle("Cinema");
