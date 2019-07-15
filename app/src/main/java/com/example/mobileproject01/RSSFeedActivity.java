@@ -15,9 +15,19 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.NavUtils;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatCallback;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -43,7 +53,57 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class RSSFeedActivity extends ListActivity implements Observer {
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+
+public class RSSFeedActivity extends AppCompatActivity implements Observer, NavigationView.OnNavigationItemSelectedListener {
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
     private ProgressBar pDialog;
     ArrayList<HashMap<String, String>> rssItemList = new ArrayList<>();
     NotificationCenter notificationCenter = new NotificationCenter();
@@ -61,12 +121,54 @@ public class RSSFeedActivity extends ListActivity implements Observer {
     private LocationManager locationManager;
     private String provider;
 
+    private ListView lv;
+
     MessageController messageController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rssfeed);
+
+
+
+        lv = (ListView) findViewById(android.R.id.list);
+
+
+
+
+
+
+
+
+
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+
+        setSupportActionBar(toolbar);
+
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
         messageController = MessageController.getInstance(this);
         notificationCenter.register(this);
 
@@ -82,7 +184,6 @@ public class RSSFeedActivity extends ListActivity implements Observer {
         shown_category.setIsSelected(1);
 
 
-
         ArrayList<Category> categories = new ArrayList<>();
         Icon.createWithFilePath("drawable-v24/rss.png");
         categories = messageController.storageManager.getValidCategories();
@@ -95,14 +196,14 @@ public class RSSFeedActivity extends ListActivity implements Observer {
         ((LinearLayoutManager) layoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new CategoryAdapter(getApplicationContext(), categories, shown_category , notificationCenter);
+        mAdapter = new CategoryAdapter(getApplicationContext(), categories, shown_category, notificationCenter);
         recyclerView.setAdapter(mAdapter);
         dividerItem = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.HORIZONTAL);
         recyclerView.addItemDecoration(dividerItem);
 
 
         new LoadRSSFeedItems().execute("");
-        ListView lv = getListView();
+        ListView lv = (ListView) findViewById(android.R.id.list);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -116,11 +217,6 @@ public class RSSFeedActivity extends ListActivity implements Observer {
         });
 
 //        NavigationUI
-
-
-
-
-
 
 
     }
@@ -202,7 +298,8 @@ public class RSSFeedActivity extends ListActivity implements Observer {
     @Override
     public void update() {
         new LoadRSSFeedItems().execute("");
-        ListView lv = getListView();
+//        ListView lv = getListView();
+        lv = (ListView) findViewById(android.R.id.list);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -223,7 +320,7 @@ public class RSSFeedActivity extends ListActivity implements Observer {
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressBar(RSSFeedActivity.this, null, android.R.attr.progressBarStyleLarge);
-            pDialog.getIndeterminateDrawable().setColorFilter(0xFFFF0000,android.graphics.PorterDuff.Mode.MULTIPLY);
+            pDialog.getIndeterminateDrawable().setColorFilter(0xFFd65a31, android.graphics.PorterDuff.Mode.MULTIPLY);
 
 
             RelativeLayout relativeLayout = findViewById(R.id.relativeLayout);
@@ -242,8 +339,7 @@ public class RSSFeedActivity extends ListActivity implements Observer {
         protected String doInBackground(String... args) {
 
             messageController.getNews(shown_category, rssItems, rssItemList);
-            System.out.println("category :      "+ shown_category.getTitle());
-
+            System.out.println("category :      " + shown_category.getTitle());
 
 
             // updating UI from Background Thread
@@ -291,7 +387,8 @@ public class RSSFeedActivity extends ListActivity implements Observer {
                             new int[]{R.id.page_url, R.id.title, R.id.pub_date});
 
                     // updating listview
-                    setListAdapter(adapter);
+//                    setListAdapter(adapter);
+                    lv.setAdapter(adapter);
                 }
             });
             return null;
@@ -300,5 +397,13 @@ public class RSSFeedActivity extends ListActivity implements Observer {
         protected void onPostExecute(String args) {
             pDialog.setVisibility(View.GONE);
         }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.refresh_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

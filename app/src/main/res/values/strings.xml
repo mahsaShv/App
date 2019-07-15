@@ -4,6 +4,16 @@
     <string name="profile_pic_name">Profile picture</string>
     <string name="refresh_button">Refresh</string>
     <string name="clear_button">Clear</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+
     <color name="border">#393e46</color>
     <!--<color name="topic_text">#e76b42</color>-->
 </resources>
