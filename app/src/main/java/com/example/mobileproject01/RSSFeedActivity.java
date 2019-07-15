@@ -43,9 +43,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class RSSFeedActivity extends ListActivity implements Observer{
+public class RSSFeedActivity extends ListActivity implements Observer {
     private ProgressBar pDialog;
     ArrayList<HashMap<String, String>> rssItemList = new ArrayList<>();
+    NotificationCenter notificationCenter = new NotificationCenter();
 
     List<News> rssItems = new ArrayList<>();
     private static String TAG_TITLE = "title";
@@ -56,6 +57,7 @@ public class RSSFeedActivity extends ListActivity implements Observer{
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private DividerItemDecoration dividerItem;
+    private Category shown_category = new Category();
     private LocationManager locationManager;
     private String provider;
 
@@ -66,10 +68,14 @@ public class RSSFeedActivity extends ListActivity implements Observer{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rssfeed);
         messageController = MessageController.getInstance(this);
+        notificationCenter.register(this);
 
         readCategoriesFromFile(this);
         readWebsitesFromFile(this);
 
+        shown_category.setId(8);
+        shown_category.setTitle("Cinema");
+        shown_category.setIsSelected(1);
 
 
 
@@ -85,14 +91,13 @@ public class RSSFeedActivity extends ListActivity implements Observer{
         ((LinearLayoutManager) layoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new CategoryAdapter(getApplicationContext(), categories);
+        mAdapter = new CategoryAdapter(getApplicationContext(), categories, shown_category , notificationCenter);
         recyclerView.setAdapter(mAdapter);
         dividerItem = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.HORIZONTAL);
         recyclerView.addItemDecoration(dividerItem);
 
 
-        String rss_link = getIntent().getStringExtra("rssLink");
-        new LoadRSSFeedItems().execute(rss_link);
+        new LoadRSSFeedItems().execute("");
         ListView lv = getListView();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -105,6 +110,13 @@ public class RSSFeedActivity extends ListActivity implements Observer{
                 startActivity(in);
             }
         });
+
+//        NavigationUI
+
+
+
+
+
 
 
     }
@@ -185,13 +197,21 @@ public class RSSFeedActivity extends ListActivity implements Observer{
 
     @Override
     public void update() {
-        //TODO
+        new LoadRSSFeedItems().execute("");
+        ListView lv = getListView();
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Intent in = new Intent(getApplicationContext(), WebActivity.class);
+                String page_url = ((TextView) view.findViewById(R.id.page_url)).getText().toString().trim();
+                in.putExtra("url", page_url);
+                startActivity(in);
+            }
+        });
     }
 
-    public void topic_chosen(View v) {
-        TextView t = v.findViewById(R.id.topic_title);
-        String chosen_topic = (String) t.getText();
-    }
 
     public class LoadRSSFeedItems extends AsyncTask<String, String, String> {
 
@@ -199,6 +219,9 @@ public class RSSFeedActivity extends ListActivity implements Observer{
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressBar(RSSFeedActivity.this, null, android.R.attr.progressBarStyleLarge);
+            pDialog.getIndeterminateDrawable().setColorFilter(0xFFFF0000,android.graphics.PorterDuff.Mode.MULTIPLY);
+
+
             RelativeLayout relativeLayout = findViewById(R.id.relativeLayout);
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -214,49 +237,45 @@ public class RSSFeedActivity extends ListActivity implements Observer{
         @Override
         protected String doInBackground(String... args) {
 
-//            messageController.getNews(,rssItems,rssItemList);
-            //TODO inja get news seda mishavad
+            messageController.getNews(shown_category, rssItems, rssItemList);
+            System.out.println("category :      "+ shown_category.getTitle());
+
 
 
             // updating UI from Background Thread
 
 
-
-
-
-
-
             // rss link url
-            String rss_url = args[0];
-            // list of rss items
-            RSSParser rssParser = new RSSParser();
-            rssItems = rssParser.getRSSFeedItems(rss_url);
-            // looping through each item
-            for (final News item : rssItems) {
-                // creating new HashMap
-                if (item.getLink().toString().equals(""))
-                    break;
-                HashMap<String, String> map = new HashMap<String, String>();
-
-                // adding each child node to HashMap key => value
-                String givenDateString = item.getDate().trim();
-                SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
-                try {
-                    Date mDate = sdf.parse(givenDateString);
-                    SimpleDateFormat sdf2 = new SimpleDateFormat("EEEE, dd MMMM yyyy - hh:mm a", Locale.US);
-                    item.setDate(sdf2.format(mDate));
-
-                } catch (ParseException | java.text.ParseException e) {
-                    e.printStackTrace();
-
-                }
-
-                map.put(TAG_TITLE, item.getTitle());
-                map.put(TAG_LINK, item.getLink());
-                map.put(TAG_PUB_DATE, item.getDate());
-                // adding HashList to ArrayList
-                rssItemList.add(map);
-            }
+//            String rss_url = args[0];
+//            // list of rss items
+//            RSSParser rssParser = new RSSParser();
+//            rssItems = rssParser.getRSSFeedItems(rss_url);
+//            // looping through each item
+//            for (final News item : rssItems) {
+//                // creating new HashMap
+//                if (item.getLink().toString().equals(""))
+//                    break;
+//                HashMap<String, String> map = new HashMap<String, String>();
+//
+//                // adding each child node to HashMap key => value
+//                String givenDateString = item.getDate().trim();
+//                SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+//                try {
+//                    Date mDate = sdf.parse(givenDateString);
+//                    SimpleDateFormat sdf2 = new SimpleDateFormat("EEEE, dd MMMM yyyy - hh:mm a", Locale.US);
+//                    item.setDate(sdf2.format(mDate));
+//
+//                } catch (ParseException | java.text.ParseException e) {
+//                    e.printStackTrace();
+//
+//                }
+//
+//                map.put(TAG_TITLE, item.getTitle());
+//                map.put(TAG_LINK, item.getLink());
+//                map.put(TAG_PUB_DATE, item.getDate());
+//                // adding HashList to ArrayList
+//                rssItemList.add(map);
+//            }
 
             // updating UI from Background Thread
             runOnUiThread(new Runnable() {
