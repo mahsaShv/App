@@ -32,8 +32,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL("create table if not exists " + CATEGORY_TABLE_NAME + " (id integer primary key autoincrement, title varchar(50), isSelected int);");
         db.execSQL("create table if not exists " + WEBSITE_TABLE_NAME + " (id integer primary key autoincrement, title varchar(50), categoryID int, url varchar(100), isSelected int);");
         db.execSQL("create table if not exists " + NEWS_TABLE_NAME + " (id integer primary key, title varchar(100), date varchar(10), link varchar(100), websiteID int, imageAddress varchar(100), body varchar(500));");
-        deleteCategories();
-        deleteWebsites();
 
     }
 
@@ -97,6 +95,21 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<Category> getAllCategories() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor result = db.rawQuery("select * from " + CATEGORY_TABLE_NAME + ";", null);
+        ArrayList<Category> categories = new ArrayList<Category>();
+        for (result.moveToFirst(); !result.isAfterLast(); result.moveToNext()) {
+            Category category = new Category();
+            category.setId(result.getInt(0));
+            category.setTitle(result.getString(1));
+            category.setIsSelected(result.getInt(2));
+            categories.add(category);
+        }
+        return categories;
+
+    }
+
     public void insertWebsite(Website website) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -134,7 +147,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL("delete from " + WEBSITE_TABLE_NAME + ";");
     }
 
-    public ArrayList<Website> getWebsites() {
+    public ArrayList<Website> getAllWebsites() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor result = db.rawQuery("select * from " + WEBSITE_TABLE_NAME + ";", null);
         ArrayList<Website> websites = new ArrayList<Website>();

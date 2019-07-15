@@ -1,11 +1,17 @@
 package com.example.mobileproject01;
 
 import android.app.ListActivity;
+import android.content.ContentValues;
 import android.graphics.Color;
 import android.graphics.drawable.Icon;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
@@ -24,10 +30,12 @@ import android.widget.TextView;
 import org.apache.http.ParseException;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 //import java.text.ParseException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,6 +56,8 @@ public class RSSFeedActivity extends ListActivity implements Observer{
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private DividerItemDecoration dividerItem;
+    private LocationManager locationManager;
+    private String provider;
 
     MessageController messageController;
 
@@ -59,6 +69,7 @@ public class RSSFeedActivity extends ListActivity implements Observer{
 
         readCategoriesFromFile(this);
         readWebsitesFromFile(this);
+
 
 
 
@@ -100,6 +111,7 @@ public class RSSFeedActivity extends ListActivity implements Observer{
 
     private void readWebsitesFromFile(Context context) {
         final Resources resources = context.getResources();
+        messageController.storageManager.deleteWebsites();
         InputStream inputStream = resources.openRawResource(R.raw.websites);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         try {
@@ -120,8 +132,37 @@ public class RSSFeedActivity extends ListActivity implements Observer{
         }
     }
 
+    private String getLocationCity() {
+        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria, false);
+        Location location = null;
+        try {
+            location = locationManager.getLastKnownLocation(provider);
+        } catch(SecurityException e) {
+            e.getStackTrace();
+        }
+        String city = "";
+        if (location != null) {
+            double lat = location.getLatitude();
+            double lng = location.getLongitude();
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            try {
+                List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+                city = addresses.get(0).getAddressLine(0);
+            } catch(IOException e) {
+                e.getStackTrace();
+            }
+
+        }
+
+        return city;
+
+    }
+
     private void readCategoriesFromFile(Context context) {
         final Resources resources = context.getResources();
+        messageController.storageManager.deleteCategories();
         InputStream inputStream = resources.openRawResource(R.raw.categories);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         try {

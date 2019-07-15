@@ -163,6 +163,62 @@ public class StorageManager {
 
     }
 
+    String getCategoriesAsString() {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        final ArrayList<Category> categories = new ArrayList<>();
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                categories.addAll(databaseManager.getAllCategories());
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String all = "";
+        for (Category c:
+             categories) {
+            all += c.getId() + " " + c.getTitle() + " " + c.getIsSelected() + "\n";
+        }
+        return all;
+    }
+
+    String getWebsitesAsString() {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        final ArrayList<Website> websites = new ArrayList<>();
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                websites.addAll(databaseManager.getAllWebsites());
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String all = "";
+        for (Website w:
+                websites) {
+            all += w.getId() + " " + w.getTitle() + " " + w.getCategoryID() + " " + w.getURL() + " " + w.getIsSelected() + "\n";
+        }
+        return all;
+    }
+
     void addCategoryToDatabase(String str) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         String[] props = str.split("\\s");
@@ -188,6 +244,50 @@ public class StorageManager {
         }
 
 
+    }
+
+    void deleteWebsites() {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                databaseManager.deleteWebsites();
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void deleteCategories() {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                databaseManager.deleteCategories();
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     void addWebsiteToDatabase(String str) {
