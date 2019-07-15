@@ -84,17 +84,13 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.edit) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.saved) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.navCategories) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.share) {
 
         }
 
@@ -131,18 +127,16 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         setContentView(R.layout.activity_rssfeed);
 
 
-
         lv = (ListView) findViewById(android.R.id.list);
 
 
+//        System.out.println("city:      " + getLocationCity());
 
 
-
-
-
-
-
-
+//        TextView t = (TextView) findViewById(R.id.account_name);
+//        t.setText("Arvin");
+//        TextView em = (TextView) findViewById(R.id.account_email);
+//        em.setText("Arvinazarmina@gmail.com");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -245,13 +239,13 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     }
 
     private String getLocationCity() {
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         provider = locationManager.getBestProvider(criteria, false);
         Location location = null;
         try {
             location = locationManager.getLastKnownLocation(provider);
-        } catch(SecurityException e) {
+        } catch (SecurityException e) {
             e.getStackTrace();
         }
         String city = "";
@@ -262,7 +256,7 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
             try {
                 List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
                 city = addresses.get(0).getAddressLine(0);
-            } catch(IOException e) {
+            } catch (IOException e) {
                 e.getStackTrace();
             }
 
