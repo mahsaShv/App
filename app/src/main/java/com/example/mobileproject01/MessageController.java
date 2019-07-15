@@ -23,7 +23,6 @@ import java.util.Locale;
 
 public class MessageController {
 
-    NotificationCenter notificationCenter;
     private static String TAG_TITLE = "title";
     private static String TAG_LINK = "link";
     private static String TAG_PUB_DATE = "pubDate";
@@ -59,10 +58,6 @@ public class MessageController {
         if (isConnectedToNetwork(context)){
             connectionManager.getNews(websites, rssItems, rssItemList);
 
-            //todo: save news to database - delete news first
-//            notificationCenter.dataLoaded();
-            //TODO lazeme?
-            //todo: get news from server
             ArrayList<News> news = new ArrayList<>();
             news.addAll(rssItems);
             storageManager.updateNews(news, category);

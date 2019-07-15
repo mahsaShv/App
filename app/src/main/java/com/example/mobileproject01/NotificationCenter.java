@@ -18,7 +18,7 @@ public class NotificationCenter {
         observers.remove(observer);
     }
 
-    public void dataLoaded() {
+    public void notifyy() {
 
         this.updateObservers();
     }
