@@ -269,7 +269,7 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         String menuItemName = menuItems[menuItemIndex];
         News listItemNews = rssItems.get(info.position);
 
-
+//        System.out.println("mahsaaaaaa "+listItemNews.getLink());
         switch (item.getItemId()) {
             case R.id.share_news:
                 Toast.makeText(this, "Shared" + listItemNews.getLink(), Toast.LENGTH_SHORT).show();
