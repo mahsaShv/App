@@ -35,7 +35,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL("create table if not exists " + WEBSITE_TABLE_NAME + " (id integer primary key autoincrement, title varchar(50), categoryID int, url varchar(100), isSelected int);");
         db.execSQL("create table if not exists " + NEWS_TABLE_NAME + " (id integer primary key, title varchar(100), date varchar(50), link varchar(100), websiteID int, imageAddress varchar(100), body varchar(500));");
         db.execSQL("create table if not exists " + SAVED_NEWS_TABLE_NAME + " (id integer primary key autoincrement, title varchar(100), date varchar(10), link varchar(100), websiteID int, imageAddress varchar(100), body varchar(500));");
-        db.execSQL("create table if not exists " + USER_TABLE_NAME + " (id integer primary key autoincrement, username varachar(100), password int, emailAddress varchar(100));");
+        db.execSQL("create table if not exists " + USER_TABLE_NAME + " (id integer primary key autoincrement, username varachar(100), password int, emailAddress varchar(100), isInUse int);");
 
     }
 
@@ -55,7 +55,19 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("username", user.getUserName());
-        contentValues.put("password", user.getPassword().hashCode());
+        contentValues.put("password", user.getPassword());
+        contentValues.put("emailAddress", user.getEmailAddress());
+        db.insert(USER_TABLE_NAME, null, contentValues);
+        contentValues.clear();
+    }
+
+    public void reinsertUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        deleteUser(user);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("id", user.getId());
+        contentValues.put("username", user.getUserName());
+        contentValues.put("password", user.getPassword());
         contentValues.put("emailAddress", user.getEmailAddress());
         db.insert(USER_TABLE_NAME, null, contentValues);
         contentValues.clear();
@@ -74,6 +86,37 @@ public class DatabaseManager extends SQLiteOpenHelper {
             }
         }
         return UserState.DOES_NOT_EXIST;
+
+    }
+
+    public void deleteUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + USER_TABLE_NAME + " where username == " + "\"" + user.getUserName() + "\"" + ";");
+    }
+
+    public void changeInUseUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor result = db.rawQuery("select * from " + USER_TABLE_NAME + " where isInUse == 1;", null);
+        for (result.moveToFirst(); !result.isAfterLast(); result.moveToNext()) {
+            User resUser = new User();
+            resUser.setId(result.getInt(0));
+            resUser.setUserName(result.getString(1));
+            resUser.setPassword(result.getInt(2));
+            resUser.setEmailAddress(result.getString(3));
+            resUser.setIsInUse(0);
+            reinsertUser(resUser);
+
+        }
+        result = db.rawQuery("select * from " + USER_TABLE_NAME + " where username == " + "\"" + user.getUserName() + "\";", null);
+        for (result.moveToFirst(); !result.isAfterLast(); result.moveToNext()) {
+            User resUser = new User();
+            resUser.setId(result.getInt(0));
+            resUser.setUserName(result.getString(1));
+            resUser.setPassword(result.getInt(2));
+            resUser.setEmailAddress(result.getString(3));
+            resUser.setIsInUse(1);
+            reinsertUser(resUser);
+        }
 
     }
 
@@ -181,6 +224,22 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public ArrayList<Website> getAllWebsites() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor result = db.rawQuery("select * from " + WEBSITE_TABLE_NAME + ";", null);
+        ArrayList<Website> websites = new ArrayList<Website>();
+        for (result.moveToFirst(); !result.isAfterLast(); result.moveToNext()) {
+            Website website = new Website();
+            website.setId(result.getInt(0));
+            website.setTitle(result.getString(1));
+            website.setCategoryID(result.getInt(2));
+            website.setURL(result.getString(3));
+            website.setIsSelected(result.getInt(4));
+            websites.add(website);
+        }
+        return websites;
+    }
+
+    public ArrayList<Website> getAllWebsites(int categoryID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor result = db.rawQuery("select * from " + WEBSITE_TABLE_NAME + " where categoryID == " + categoryID + ";", null);
         ArrayList<Website> websites = new ArrayList<Website>();
         for (result.moveToFirst(); !result.isAfterLast(); result.moveToNext()) {
             Website website = new Website();

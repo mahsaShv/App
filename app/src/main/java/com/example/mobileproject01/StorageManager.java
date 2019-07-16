@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -39,6 +40,38 @@ public class StorageManager {
         databaseManager = DatabaseManager.getInstance(context);
     }
 
+
+    HashMap<String, List<String>> getAllCategoriesAndWebsites() {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        final HashMap<String, List<String>> result = new HashMap<>();
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<Category> categories = databaseManager.getAllCategories();
+                for (Category c:
+                     categories) {
+                    result.put(c.getTitle(), new ArrayList<>());
+                    ArrayList<Website> websites = databaseManager.getAllWebsites(c.getId());
+                    for (Website w:
+                         websites) {
+                        result.get(c.getTitle()).add(w.getTitle());
+                    }
+                }
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 
     void funcOnAnotherThread() {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -158,6 +191,8 @@ public class StorageManager {
 
         return categories;
     }
+
+
 
     void updateNews(ArrayList<News> news, Category category) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
