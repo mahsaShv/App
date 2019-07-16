@@ -76,7 +76,7 @@ public class ConnectionManager {
             rssItems.addAll(temp);
         }
         for(int i = 0; i < rssItems.size(); i++) {
-            rssItems.get(i).setId(categoryID * 1000 + i);
+            rssItems.get(i).setId(categoryID * 10000 + i);
         }
 
 

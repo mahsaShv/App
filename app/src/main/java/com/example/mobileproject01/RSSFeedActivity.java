@@ -19,6 +19,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatCallback;
 import android.support.v7.app.AppCompatDelegate;
@@ -54,6 +55,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -119,6 +121,9 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     private Category shown_category = new Category();
     private LocationManager locationManager;
     private String provider;
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    CountDownLatch countDownLatch = new CountDownLatch(1);
 
     private ListView lv;
 
@@ -131,6 +136,21 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
 
         lv = (ListView) findViewById(android.R.id.list);
+
+        swipeRefreshLayout =(SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+
+        swipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        countDownLatch = new CountDownLatch(1);
+                        doYourUpdate();
+                    }
+                }
+        );
+
+
+
 
 
 //        System.out.println("city:      " + getLocationCity());
@@ -224,6 +244,13 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
     }
 
+    private void doYourUpdate() {
+        update();
+
+        pDialog.setVisibility(View.GONE);
+
+    }
+
     private void readWebsitesFromFile(Context context) {
         final Resources resources = context.getResources();
         messageController.storageManager.deleteWebsites();
@@ -247,33 +274,33 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         }
     }
 
-    private String getLocationCity() {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        provider = locationManager.getBestProvider(criteria, false);
-        Location location = null;
-        try {
-            location = locationManager.getLastKnownLocation(provider);
-        } catch (SecurityException e) {
-            e.getStackTrace();
-        }
-        String city = "";
-        if (location != null) {
-            double lat = location.getLatitude();
-            double lng = location.getLongitude();
-            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-            try {
-                List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-                city = addresses.get(0).getAddressLine(0);
-            } catch (IOException e) {
-                e.getStackTrace();
-            }
-
-        }
-
-        return city;
-
-    }
+//    private String getLocationCity() {
+//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//        Criteria criteria = new Criteria();
+//        provider = locationManager.getBestProvider(criteria, false);
+//        Location location = null;
+//        try {
+//            location = locationManager.getLastKnownLocation(provider);
+//        } catch (SecurityException e) {
+//            e.getStackTrace();
+//        }
+//        String city = "";
+//        if (location != null) {
+//            double lat = location.getLatitude();
+//            double lng = location.getLongitude();
+//            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+//            try {
+//                List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+//                city = addresses.get(0).getAddressLine(0);
+//            } catch (IOException e) {
+//                e.getStackTrace();
+//            }
+//
+//        }
+//
+//        return city;
+//
+//    }
 
     private void readCategoriesFromFile(Context context) {
         final Resources resources = context.getResources();
@@ -314,6 +341,14 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
                 startActivity(in);
             }
         });
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        swipeRefreshLayout.setRefreshing(false);
     }
 
 
@@ -394,6 +429,8 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
                     lv.setAdapter(adapter);
                 }
             });
+
+            countDownLatch.countDown();
             return null;
         }
 
