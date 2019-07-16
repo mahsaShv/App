@@ -244,7 +244,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         for (News n:
                 news) {
-            Cursor savedRes = db.rawQuery("select * from " + SAVED_NEWS_TABLE_NAME + " where title == " + n.getTitle() + ";", null);
+            Cursor savedRes = db.rawQuery("select * from " + SAVED_NEWS_TABLE_NAME + " where title == " + "\"" + n.getTitle() + "\";", null);
             n.setSaved(savedRes.getCount() > 0);
         }
     }
