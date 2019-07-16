@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 public class StorageManager {
@@ -108,6 +109,29 @@ public class StorageManager {
             e.printStackTrace();
         }
         return websites.size() == 0;
+
+    }
+
+    void fillNewsIsSaved(ArrayList<News> news) {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                databaseManager.fillNewsSaved(news);
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 

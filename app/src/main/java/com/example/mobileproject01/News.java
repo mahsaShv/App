@@ -10,6 +10,7 @@ public class News {
     private int websiteID;
     private String imageAddress;
     private String body;
+    private boolean isSaved;
 
 
     public News(String title, String link ,String date) {
@@ -22,6 +23,9 @@ public class News {
 
     }
 
+    public boolean isSaved() {
+        return isSaved;
+    }
 
     public int getId() {
         return id;
@@ -77,5 +81,9 @@ public class News {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public void setSaved(boolean saved) {
+        isSaved = saved;
     }
 }
