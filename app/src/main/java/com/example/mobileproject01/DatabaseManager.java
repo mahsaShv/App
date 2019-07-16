@@ -17,6 +17,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public static String WEBSITE_TABLE_NAME = "websites";
     public static String NEWS_TABLE_NAME = "news";
     public static String SAVED_NEWS_TABLE_NAME = "savedNews";
+    public static String USER_TABLE_NAME = "users";
 
     public static DatabaseManager getInstance(Context context) {
         if (SINGLE_INSTANCE == null) {
@@ -32,8 +33,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("create table if not exists " + CATEGORY_TABLE_NAME + " (id integer primary key autoincrement, title varchar(50), isSelected int);");
         db.execSQL("create table if not exists " + WEBSITE_TABLE_NAME + " (id integer primary key autoincrement, title varchar(50), categoryID int, url varchar(100), isSelected int);");
-        db.execSQL("create table if not exists " + NEWS_TABLE_NAME + " (id integer primary key, title varchar(100), date varchar(10), link varchar(100), websiteID int, imageAddress varchar(100), body varchar(500));");
+        db.execSQL("create table if not exists " + NEWS_TABLE_NAME + " (id integer primary key, title varchar(100), date varchar(50), link varchar(100), websiteID int, imageAddress varchar(100), body varchar(500));");
         db.execSQL("create table if not exists " + SAVED_NEWS_TABLE_NAME + " (id integer primary key autoincrement, title varchar(100), date varchar(10), link varchar(100), websiteID int, imageAddress varchar(100), body varchar(500));");
+        db.execSQL("create table if not exists " + USER_TABLE_NAME + " (id integer primary key autoincrement, username varachar(100), password int, emailAddress varchar(100));");
 
     }
 
@@ -46,6 +48,32 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+
+    public void insertUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("username", user.getUserName());
+        contentValues.put("password", user.getPassword().hashCode());
+        contentValues.put("emailAddress", user.getEmailAddress());
+        db.insert(USER_TABLE_NAME, null, contentValues);
+        contentValues.clear();
+    }
+
+    public UserState checkPassword(String name, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor result = db.rawQuery("select * from " + USER_TABLE_NAME + " where username == " + name + " or emailAddress == " + name + ";", null);
+        if (result.getCount() == 0) {
+            return UserState.DOES_NOT_EXIST;
+        }
+        for (result.moveToFirst(); !result.isAfterLast(); result.moveToNext()) {
+            int pass = result.getInt(1);
+            if (password.hashCode() == pass) {
+                return UserState.VALID;
+            }
+        }
+        return UserState.DOES_NOT_EXIST;
 
     }
 
