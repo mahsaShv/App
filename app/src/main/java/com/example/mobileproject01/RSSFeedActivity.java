@@ -29,8 +29,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
@@ -139,6 +141,7 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
 
+
         swipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
@@ -219,7 +222,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
         new LoadRSSFeedItems().execute("");
         ListView lv = (ListView) findViewById(android.R.id.list);
-
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view,
@@ -231,7 +233,53 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
             }
         });
 
+        registerForContextMenu(lv);
 
+//        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                registerForContextMenu(lv);
+//                return false;
+//            }
+//        });
+
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        if (v.getId() == android.R.id.list) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            String[] menuItems = getResources().getStringArray(R.array.menu);
+            for (int i = 0; i < menuItems.length; i++) {
+                menu.add(Menu.NONE, i, i, menuItems[i]);
+            }
+        }
+
+//        getMenuInflater().inflate(R.menu.news_floating_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int menuItemIndex = item.getItemId();
+        String[] menuItems = getResources().getStringArray(R.array.menu);
+        String menuItemName = menuItems[menuItemIndex];
+        News listItemNews = rssItems.get(info.position);
+
+
+        switch (item.getItemId()) {
+            case R.id.share_news:
+                Toast.makeText(this, "Shared" + listItemNews.getLink(), Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.save_news:
+                Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
     private void doYourUpdate() {
@@ -319,6 +367,8 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     public void update() {
         new LoadRSSFeedItems().execute("");
         lv = (ListView) findViewById(android.R.id.list);
+
+        registerForContextMenu(lv);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -416,8 +466,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
             swipeRefreshLayout.setRefreshing(false);
 
 
-
-
             return null;
         }
 
@@ -428,10 +476,11 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        messageController.storageManager.deleteCategories();
-        messageController.storageManager.deleteWebsites();
+//        messageController.storageManager.deleteCategories();
+//        messageController.storageManager.deleteWebsites();
     }
 }
