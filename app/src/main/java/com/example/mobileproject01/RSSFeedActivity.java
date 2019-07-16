@@ -50,7 +50,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-//import java.text.ParseException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,7 +57,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.CountDownLatch;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -235,13 +233,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
         registerForContextMenu(lv);
 
-//        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//                registerForContextMenu(lv);
-//                return false;
-//            }
-//        });
 
     }
 
@@ -257,7 +248,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
             }
         }
 
-//        getMenuInflater().inflate(R.menu.news_floating_menu, menu);
     }
 
     @Override
@@ -269,10 +259,10 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         String menuItemName = menuItems[menuItemIndex];
         News listItemNews = rssItems.get(info.position);
 
-//        System.out.println("mahsaaaaaa "+listItemNews.getLink());
+        System.out.println("mahsaaaaaa "+listItemNews.getLink());
         switch (item.getItemId()) {
             case R.id.share_news:
-                Toast.makeText(this, "Shared" + listItemNews.getLink(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Shared" , Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.save_news:
                 Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
@@ -413,41 +403,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
 
             // updating UI from Background Thread
-
-
-            // rss link url
-//            String rss_url = args[0];
-//            // list of rss items
-//            RSSParser rssParser = new RSSParser();
-//            rssItems = rssParser.getRSSFeedItems(rss_url);
-//            // looping through each item
-//            for (final News item : rssItems) {
-//                // creating new HashMap
-//                if (item.getLink().toString().equals(""))
-//                    break;
-//                HashMap<String, String> map = new HashMap<String, String>();
-//
-//                // adding each child node to HashMap key => value
-//                String givenDateString = item.getDate().trim();
-//                SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
-//                try {
-//                    Date mDate = sdf.parse(givenDateString);
-//                    SimpleDateFormat sdf2 = new SimpleDateFormat("EEEE, dd MMMM yyyy - hh:mm a", Locale.US);
-//                    item.setDate(sdf2.format(mDate));
-//
-//                } catch (ParseException | java.text.ParseException e) {
-//                    e.printStackTrace();
-//
-//                }
-//
-//                map.put(TAG_TITLE, item.getTitle());
-//                map.put(TAG_LINK, item.getLink());
-//                map.put(TAG_PUB_DATE, item.getDate());
-//                // adding HashList to ArrayList
-//                rssItemList.add(map);
-//            }
-
-            // updating UI from Background Thread
             runOnUiThread(new Runnable() {
                 public void run() {
                     ListAdapter adapter = new SimpleAdapter(
@@ -457,12 +412,9 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
                             new int[]{R.id.page_url, R.id.title, R.id.pub_date});
 
                     // updating listview
-//                    setListAdapter(adapter);
                     lv.setAdapter(adapter);
                 }
             });
-
-//            countDownLatch.countDown();
             swipeRefreshLayout.setRefreshing(false);
 
 
