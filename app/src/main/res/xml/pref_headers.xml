@@ -4,17 +4,39 @@
 
     <header
         android:fragment="com.example.mobileproject01.CategorySettingsActivity$GeneralPreferenceFragment"
-        android:icon="@drawable/ic_info_black_24dp"
-        android:title="@string/pref_header_general" />
+        android:icon="@drawable/sports"
+        android:title="Sports" />
+
+
+    <header
+        android:fragment="com.example.mobileproject01.CategorySettingsActivity$GeneralPreferenceFragment"
+        android:icon="@drawable/politics"
+        android:title="Politics" />
+
+    <header
+        android:fragment="com.example.mobileproject01.CategorySettingsActivity$GeneralPreferenceFragment"
+        android:icon="@drawable/nature"
+        android:title="Nature" />
+
+    <header
+        android:fragment="com.example.mobileproject01.CategorySettingsActivity$GeneralPreferenceFragment"
+        android:icon="@drawable/gaming"
+        android:title="Gaming" />
+
+    <header
+        android:fragment="com.example.mobileproject01.CategorySettingsActivity$GeneralPreferenceFragment"
+        android:icon="@drawable/technology"
+        android:title="Technology" />
+
 
     <header
         android:fragment="com.example.mobileproject01.CategorySettingsActivity$NotificationPreferenceFragment"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/pref_header_notifications" />
+        android:icon="@drawable/celebrity"
+        android:title="Celebrity" />
 
     <header
         android:fragment="com.example.mobileproject01.CategorySettingsActivity$DataSyncPreferenceFragment"
-        android:icon="@drawable/ic_sync_black_24dp"
-        android:title="@string/pref_header_data_sync" />
+        android:icon="@drawable/cinema"
+        android:title="Cinema" />
 
 </preference-headers>
