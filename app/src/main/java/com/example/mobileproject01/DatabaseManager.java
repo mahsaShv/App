@@ -16,6 +16,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public static String CATEGORY_TABLE_NAME = "categories";
     public static String WEBSITE_TABLE_NAME = "websites";
     public static String NEWS_TABLE_NAME = "news";
+    public static String SAVED_NEWS_TABLE_NAME = "savedNews";
 
     public static DatabaseManager getInstance(Context context) {
         if (SINGLE_INSTANCE == null) {
@@ -32,6 +33,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL("create table if not exists " + CATEGORY_TABLE_NAME + " (id integer primary key autoincrement, title varchar(50), isSelected int);");
         db.execSQL("create table if not exists " + WEBSITE_TABLE_NAME + " (id integer primary key autoincrement, title varchar(50), categoryID int, url varchar(100), isSelected int);");
         db.execSQL("create table if not exists " + NEWS_TABLE_NAME + " (id integer primary key, title varchar(100), date varchar(10), link varchar(100), websiteID int, imageAddress varchar(100), body varchar(500));");
+        db.execSQL("create table if not exists " + SAVED_NEWS_TABLE_NAME + " (id integer primary key autoincrement, title varchar(100), date varchar(10), link varchar(100), websiteID int, imageAddress varchar(100), body varchar(500));");
 
     }
 
@@ -74,6 +76,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             contentValues.clear();
         }
     }
+
 
     public void deleteCategories() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -196,6 +199,28 @@ public class DatabaseManager extends SQLiteOpenHelper {
         }
     }
 
+    public void saveNews(News news) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("title", news.getTitle());
+        contentValues.put("date", news.getDate());
+        contentValues.put("link", news.getLink());
+        contentValues.put("websiteID", news.getWebsiteID());
+        contentValues.put("imageAddress", news.getImageAddress());
+        contentValues.put("body", news.getBody());
+        db.insert(SAVED_NEWS_TABLE_NAME, null, contentValues);
+        contentValues.clear();
+    }
+
+    public void fillNewsSaved(ArrayList<News> news) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        for (News n:
+                news) {
+            Cursor savedRes = db.rawQuery("select * from " + SAVED_NEWS_TABLE_NAME + " where title == " + n.getTitle() + ";", null);
+            n.setSaved(savedRes.getCount() > 0);
+        }
+    }
+
     public ArrayList<News> getNews(int webID) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor result = db.rawQuery("select * from " + NEWS_TABLE_NAME + " where websiteID == " + webID + ";", null);
@@ -211,6 +236,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             news.setBody(result.getString(6));
             newss.add(news);
         }
+        fillNewsSaved(newss);
         return newss;
     }
 

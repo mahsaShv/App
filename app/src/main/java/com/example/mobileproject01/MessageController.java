@@ -60,6 +60,7 @@ public class MessageController {
 
             ArrayList<News> news = new ArrayList<>();
             news.addAll(rssItems);
+            storageManager.fillNewsIsSaved(news);
             storageManager.updateNews(news, category);
             return;
 
