@@ -19,11 +19,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     private Context context;
     NotificationCenter notificationCenter;
 
-    private ArrayList<Category> c= new ArrayList<>();
+    private ArrayList<Category> c = new ArrayList<>();
 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title;
+        public ImageView title;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -31,7 +31,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         }
     }
 
-    public CategoryAdapter(Context context, ArrayList<Category> myDataset, Category category , NotificationCenter notificationCenter) {
+    public CategoryAdapter(Context context, ArrayList<Category> myDataset, Category category, NotificationCenter notificationCenter) {
         this.context = context;
         mDataset = myDataset;
         this.notificationCenter = notificationCenter;
@@ -50,10 +50,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int i) {
         Category category = mDataset.get(i);
-        if (category.getTitle().equals("NearYou"))
-            viewHolder.title.setText("Near you");
-        else
-            viewHolder.title.setText(category.getTitle());
+        int imgsrc = this.context.getResources().getIdentifier("@drawable/" + category.getTitle().toLowerCase(), null, this.context.getPackageName());
+        viewHolder.title.setImageResource(imgsrc);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,9 +60,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                 c.get(0).setIsSelected(category.getIsSelected());
                 c.get(0).setTitle(category.getTitle());
                 c.get(0).setId(category.getId());
-                c.get(0).setIcon(category.getIcon());
-
-
 
                 notificationCenter.notifyy();
             }

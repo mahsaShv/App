@@ -26,6 +26,8 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.TextAppearanceSpan;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -89,7 +91,8 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         } else if (id == R.id.saved) {
 
         } else if (id == R.id.navCategories) {
-
+            Intent i = new Intent(this, CategorySettingsActivity.class);
+            startActivity(i);
         } else if (id == R.id.share) {
 
         }
@@ -162,14 +165,20 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Menu menu = navigationView.getMenu();
+        MenuItem others = menu.findItem(R.id.other);
+        SpannableString s = new SpannableString(others.getTitle());
+        s.setSpan(new TextAppearanceSpan(this, R.style.TextAppearance), 0, s.length(), 0);
+        others.setTitle(s);
+        navigationView.setNavigationItemSelectedListener(this);
 
         messageController = MessageController.getInstance(this);
         notificationCenter.register(this);
 
-        if(messageController.storageManager.categoryTableIsEmpty()) {
+        if (messageController.storageManager.categoryTableIsEmpty()) {
             readCategoriesFromFile(this);
         }
-        if(messageController.storageManager.websiteTableIsEmpty()) {
+        if (messageController.storageManager.websiteTableIsEmpty()) {
             readWebsitesFromFile(this);
         }
 

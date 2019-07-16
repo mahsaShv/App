@@ -6,25 +6,30 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/edit"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@drawable/editicon"
             android:title="Edit Account" />
         <item
             android:id="@+id/saved"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@drawable/saveicon"
             android:title="Saved " />
 
     </group>
 
-    <item android:title="Other">
+    <item android:title="Other"
+        android:id="@+id/other">
         <menu>
             <item
                 android:id="@+id/navCategories"
-                android:icon="@drawable/ic_launcher_background"
+                android:icon="@drawable/categoriesicon"
                 android:title="Categories" />
             <item
                 android:id="@+id/share"
-                android:icon="@drawable/ic_launcher_background"
+                android:icon="@drawable/shareicon"
                 android:title="Share with friends" />
+            <item
+                android:id="@+id/settings"
+                android:icon="@drawable/settingicon"
+                android:title="Settings" />
         </menu>
     </item>
 

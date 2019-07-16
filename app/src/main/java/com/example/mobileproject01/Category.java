@@ -6,7 +6,6 @@ public class Category {
     private int id;
     private String title;
     private int isSelected;
-    private Icon icon;
 
     public Category(int id, String title, int isSelected) {
         this.setId(id);
@@ -15,14 +14,6 @@ public class Category {
     }
 
     public Category() {
-    }
-
-    public void setIcon(Icon icon) {
-        this.icon = icon;
-    }
-
-    public Icon getIcon() {
-        return icon;
     }
 
     public int getId() {
