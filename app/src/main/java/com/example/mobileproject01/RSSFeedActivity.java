@@ -263,9 +263,15 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         switch (item.getItemId()) {
             case R.id.share_news:
                 Toast.makeText(this, "Shared" , Toast.LENGTH_SHORT).show();
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, listItemNews.getLink());
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
                 return true;
             case R.id.save_news:
                 Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+                messageController.storageManager.saveNews(listItemNews);
                 return true;
             default:
                 return super.onContextItemSelected(item);
