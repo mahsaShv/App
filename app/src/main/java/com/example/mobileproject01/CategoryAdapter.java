@@ -1,6 +1,7 @@
 package com.example.mobileproject01;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Icon;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -56,6 +57,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
+//                viewHolder.title.setImageTintMode(PorterDuff.Mode.DARKEN);
 
                 c.get(0).setIsSelected(category.getIsSelected());
                 c.get(0).setTitle(category.getTitle());

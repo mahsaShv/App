@@ -49,13 +49,13 @@ public class StorageManager {
             @Override
             public void run() {
                 ArrayList<Category> categories = databaseManager.getAllCategories();
-                for (Category c:
-                     categories) {
+                for (Category c :
+                        categories) {
                     result.put(c.getTitle(), new ArrayList<>());
                     ArrayList<Website> websites = databaseManager.getAllWebsites(c.getId());
-                    for (Website w:
-                         websites) {
-                        result.get(c.getTitle()).add(w.getTitle());
+                    for (Website w :
+                            websites) {
+                        result.get(c.getTitle()).add(w.getTitle() + w.getIsSelected());
                     }
                 }
                 countDownLatch.countDown();
@@ -193,7 +193,6 @@ public class StorageManager {
     }
 
 
-
     void updateNews(ArrayList<News> news, Category category) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
 
@@ -291,8 +290,8 @@ public class StorageManager {
             e.printStackTrace();
         }
         String all = "";
-        for (Category c:
-             categories) {
+        for (Category c :
+                categories) {
             all += c.getId() + " " + c.getTitle() + " " + c.getIsSelected() + "\n";
         }
         return all;
@@ -319,7 +318,7 @@ public class StorageManager {
             e.printStackTrace();
         }
         String all = "";
-        for (Website w:
+        for (Website w :
                 websites) {
             all += w.getId() + " " + w.getTitle() + " " + w.getCategoryID() + " " + w.getURL() + " " + w.getIsSelected() + "\n";
         }

@@ -1,9 +1,9 @@
-1 Sports 0
+1 Sports 1
 2 Politics 1
 3 Nature 1
-4 Gaming 0
+4 Gaming 1
 5 NearYou 1
 6 Technology 1
-7 Celebrity 0
+7 Celebrity 1
 8 Cinema 1
 9 All 1

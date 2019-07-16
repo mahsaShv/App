@@ -4,39 +4,39 @@
 
     <header
         android:fragment="com.example.mobileproject01.CategorySettingsActivity$GeneralPreferenceFragment"
-        android:icon="@drawable/sports"
+        android:icon="@drawable/sportsicon"
         android:title="Sports" />
 
 
     <header
         android:fragment="com.example.mobileproject01.CategorySettingsActivity$GeneralPreferenceFragment"
-        android:icon="@drawable/politics"
+        android:icon="@drawable/politicsicon"
         android:title="Politics" />
 
     <header
         android:fragment="com.example.mobileproject01.CategorySettingsActivity$GeneralPreferenceFragment"
-        android:icon="@drawable/nature"
+        android:icon="@drawable/natureicon"
         android:title="Nature" />
 
     <header
         android:fragment="com.example.mobileproject01.CategorySettingsActivity$GeneralPreferenceFragment"
-        android:icon="@drawable/gaming"
+        android:icon="@drawable/gamingicon"
         android:title="Gaming" />
 
     <header
         android:fragment="com.example.mobileproject01.CategorySettingsActivity$GeneralPreferenceFragment"
-        android:icon="@drawable/technology"
+        android:icon="@drawable/technologyicon"
         android:title="Technology" />
 
 
     <header
         android:fragment="com.example.mobileproject01.CategorySettingsActivity$NotificationPreferenceFragment"
-        android:icon="@drawable/celebrity"
+        android:icon="@drawable/celebrityicon"
         android:title="Celebrity" />
 
     <header
         android:fragment="com.example.mobileproject01.CategorySettingsActivity$DataSyncPreferenceFragment"
-        android:icon="@drawable/cinema"
+        android:icon="@drawable/cinemaicon"
         android:title="Cinema" />
 
 </preference-headers>

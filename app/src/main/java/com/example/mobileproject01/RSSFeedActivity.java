@@ -33,6 +33,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -68,6 +69,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class RSSFeedActivity extends AppCompatActivity implements Observer, NavigationView.OnNavigationItemSelectedListener {
 
@@ -93,7 +95,7 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         } else if (id == R.id.saved) {
 
         } else if (id == R.id.navCategories) {
-            Intent i = new Intent(this, CategorySettingsActivity.class);
+            Intent i = new Intent(this, CategroiesActivity.class);
             startActivity(i);
         } else if (id == R.id.share) {
 
@@ -135,7 +137,7 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
         lv = (ListView) findViewById(android.R.id.list);
 
-        swipeRefreshLayout =(SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
 
         swipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -146,9 +148,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
                     }
                 }
         );
-
-
-
 
 
 //        System.out.println("city:      " + getLocationCity());
@@ -231,7 +230,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
                 startActivity(in);
             }
         });
-
 
 
     }
@@ -416,6 +414,10 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
 //            countDownLatch.countDown();
             swipeRefreshLayout.setRefreshing(false);
+
+
+
+
             return null;
         }
 
@@ -423,6 +425,13 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
             pDialog.setVisibility(View.GONE);
         }
 
+
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        messageController.storageManager.deleteCategories();
+        messageController.storageManager.deleteWebsites();
+    }
 }
