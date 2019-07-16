@@ -148,6 +148,18 @@ public class DatabaseManager extends SQLiteOpenHelper {
         }
     }
 
+    public void changeWebsiteStatus(String websiteName) {
+        ArrayList<Website> websites = getWebsites(websiteName);
+        deleteWebsites(websites);
+        for (Website w:
+             websites) {
+            w.setIsSelected(w.getIsSelected() == 0? 1 : 0);
+        }
+        insertWebsites(websites);
+
+
+    }
+
 
     public void deleteCategories() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -198,7 +210,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     public void deleteWebsite(Website website) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("delete from " + WEBSITE_TABLE_NAME + " where url == " + website.getURL() + ";");
+        db.execSQL("delete from " + WEBSITE_TABLE_NAME + " where id == " + website.getId() + ";");
     }
 
     public void insertWebsites(ArrayList<Website> websites) {
@@ -219,6 +231,13 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void deleteWebsites() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + WEBSITE_TABLE_NAME + ";");
+    }
+
+    public void deleteWebsites(ArrayList<Website> websites) {
+        for (Website w:
+             websites) {
+            deleteWebsite(w);
+        }
     }
 
     public ArrayList<Website> getAllWebsites() {
@@ -256,6 +275,22 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public ArrayList<Website> getWebsites(Category category) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor result = db.rawQuery("select * from " + WEBSITE_TABLE_NAME + " where categoryID == " + category.getId() + " and isSelected == 1;", null);
+        ArrayList<Website> websites = new ArrayList<Website>();
+        for (result.moveToFirst(); !result.isAfterLast(); result.moveToNext()) {
+            Website website = new Website();
+            website.setId(result.getInt(0));
+            website.setTitle(result.getString(1));
+            website.setCategoryID(result.getInt(2));
+            website.setURL(result.getString(3));
+            website.setIsSelected(result.getInt(4));
+            websites.add(website);
+        }
+        return websites;
+    }
+
+    public ArrayList<Website> getWebsites(String websiteName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor result = db.rawQuery("select * from " + WEBSITE_TABLE_NAME + " where title == " + "\"" + websiteName + "\"" + ";", null);
         ArrayList<Website> websites = new ArrayList<Website>();
         for (result.moveToFirst(); !result.isAfterLast(); result.moveToNext()) {
             Website website = new Website();

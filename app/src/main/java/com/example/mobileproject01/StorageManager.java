@@ -13,6 +13,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -53,9 +56,9 @@ public class StorageManager {
                         categories) {
                     result.put(c.getTitle(), new ArrayList<>());
                     ArrayList<Website> websites = databaseManager.getAllWebsites(c.getId());
-                    for (Website w :
-                            websites) {
-                        result.get(c.getTitle()).add(w.getTitle() + w.getIsSelected());
+                    for (Website w:
+                         websites) {
+                        result.get(c.getTitle()).add(w.getTitle()+w.getIsSelected());
                     }
                 }
                 countDownLatch.countDown();
@@ -69,6 +72,7 @@ public class StorageManager {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
 
         return result;
     }
@@ -96,6 +100,7 @@ public class StorageManager {
 
 
     }
+
 
     boolean categoryTableIsEmpty() {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -426,4 +431,25 @@ public class StorageManager {
     }
 
 
+    void changeWebsiteStatus(String name) {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                databaseManager.changeWebsiteStatus(name);
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
