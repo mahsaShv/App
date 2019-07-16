@@ -123,8 +123,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     private String provider;
     SwipeRefreshLayout swipeRefreshLayout;
 
-    CountDownLatch countDownLatch = new CountDownLatch(1);
-
     private ListView lv;
 
     MessageController messageController;
@@ -143,7 +141,7 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        countDownLatch = new CountDownLatch(1);
+//                        countDownLatch = new CountDownLatch(1);
                         doYourUpdate();
                     }
                 }
@@ -155,11 +153,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
 //        System.out.println("city:      " + getLocationCity());
 
-
-//        TextView t = (TextView) findViewById(R.id.account_name);
-//        t.setText("Arvin");
-//        TextView em = (TextView) findViewById(R.id.account_email);
-//        em.setText("Arvinazarmina@gmail.com");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -239,7 +232,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
             }
         });
 
-//        NavigationUI
 
 
     }
@@ -328,7 +320,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     @Override
     public void update() {
         new LoadRSSFeedItems().execute("");
-//        ListView lv = getListView();
         lv = (ListView) findViewById(android.R.id.list);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -342,13 +333,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
             }
         });
 
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        swipeRefreshLayout.setRefreshing(false);
     }
 
 
@@ -430,7 +414,8 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
                 }
             });
 
-            countDownLatch.countDown();
+//            countDownLatch.countDown();
+            swipeRefreshLayout.setRefreshing(false);
             return null;
         }
 
@@ -440,10 +425,4 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.refresh_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 }
