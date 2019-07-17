@@ -65,16 +65,38 @@ public class ConnectionManager {
         // list of rss items
         int categoryID = websites.get(0).getCategoryID();
         List<News> temp;
-        for (int i = 0; i <websites.size(); i++){
-            String rss_url = websites.get(i).getURL();
-            temp = rssParser.getRSSFeedItems(rss_url);
 
-            for (int j = 0; j < temp.size(); j++) {
-                temp.get(j).setWebsiteID(websites.get(i).getId());
-//                temp.get(j).setId(websites.get(i).getCategoryID());
+
+        if ( categoryID == 5 ){
+            for (int i = 0; i <websites.size(); i++){
+                String rss_url = websites.get(i).getURL().replace("text" , "iran");
+                temp = rssParser.getRSSFeedItems(rss_url);
+
+                for (int j = 0; j < temp.size(); j++) {
+                    temp.get(j).setWebsiteID(websites.get(i).getId());
+                }
+                rssItems.addAll(temp);
             }
-            rssItems.addAll(temp);
         }
+
+        else{
+            for (int i = 0; i <websites.size(); i++){
+                String rss_url = websites.get(i).getURL();
+                temp = rssParser.getRSSFeedItems(rss_url);
+
+                for (int j = 0; j < temp.size(); j++) {
+                    temp.get(j).setWebsiteID(websites.get(i).getId());
+                }
+                rssItems.addAll(temp);
+            }
+        }
+
+
+
+
+
+
+
         for(int i = 0; i < rssItems.size(); i++) {
             rssItems.get(i).setId(categoryID * 10000 + i);
         }

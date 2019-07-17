@@ -412,6 +412,51 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
             System.out.println("category :      " + shown_category.getTitle());
 
 
+
+
+//                        String rss_url = args[0];
+            // list of rss items
+//            RSSParser rssParser = new RSSParser();
+//            rssItems = rssParser.getRSSFeedItems("https://news.google.com/rss/search?q=%3Ctext%3E&hl=en-US&gl=US&ceid=US:en".replace("text" , "iran"));
+//            // looping through each item
+//            for (final News item : rssItems) {
+//                // creating new HashMap
+//                if (item.getLink().toString().equals(""))
+//                    break;
+//                HashMap<String, String> map = new HashMap<String, String>();
+//
+//                // adding each child node to HashMap key => value
+//                String givenDateString = item.getDate().trim();
+//                SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+//                try {
+//                    Date mDate = sdf.parse(givenDateString);
+//                    SimpleDateFormat sdf2 = new SimpleDateFormat("EEEE, dd MMMM yyyy - hh:mm a", Locale.US);
+//                    item.setDate(sdf2.format(mDate));
+//
+//                } catch (ParseException | java.text.ParseException e) {
+//                    e.printStackTrace();
+//
+//                }
+//
+//                map.put(TAG_TITLE, item.getTitle());
+//                map.put(TAG_LINK, item.getLink());
+//                map.put(TAG_PUB_DATE, item.getDate());
+//                // adding HashList to ArrayList
+//                rssItemList.add(map);
+//            }
+
+
+
+
+
+
+
+
+
+
+
+
+
             // updating UI from Background Thread
             runOnUiThread(new Runnable() {
                 public void run() {
@@ -442,7 +487,7 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        messageController.storageManager.deleteCategories();
-//        messageController.storageManager.deleteWebsites();
+        messageController.storageManager.deleteCategories();
+        messageController.storageManager.deleteWebsites();
     }
 }
