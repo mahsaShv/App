@@ -69,6 +69,8 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int listPosition) {
+        if (this.expandableListDetail.isEmpty())
+            return 0;
         return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
                 .size();
     }

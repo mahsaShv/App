@@ -2,6 +2,7 @@ package com.example.mobileproject01;
 
 import android.app.ListActivity;
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Icon;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.NavUtils;
@@ -99,6 +101,9 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
             startActivity(i);
         } else if (id == R.id.share) {
 
+        } else if (id == R.id.settings) {
+            Intent i = new Intent(this, SettingsActivity.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -259,7 +264,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         String menuItemName = menuItems[menuItemIndex];
         News listItemNews = rssItems.get(info.position);
 
-        System.out.println("mahsaaaaaa "+listItemNews.getLink());
         switch (item.getItemId()) {
             case R.id.share_news:
                 Toast.makeText(this, "Shared" , Toast.LENGTH_SHORT).show();
