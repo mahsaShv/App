@@ -11,8 +11,8 @@ import android.widget.Switch;
 public class SettingsActivity extends AppCompatActivity {
     private Switch themeSwitcher;
     private static boolean isThemeDark = true;
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
+//    SharedPreferences preferences;
+//    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +23,16 @@ public class SettingsActivity extends AppCompatActivity {
             setTheme(R.style.AppThemeLight);
         setContentView(R.layout.activity_settings);
         themeSwitcher = findViewById(R.id.theme_switcher);
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        editor = preferences.edit();
+//        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        editor = preferences.edit();
+        themeSwitcher.setChecked(isThemeDark);
         themeSwitcher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isThemeDark = !isThemeDark;
-                editor.putInt("Theme", isThemeDark ? 1 : 0);
+                Constant.setChangeMain(true);
+//                editor.putInt("Theme", isThemeDark ? 1 : 0);
+                Constant.setAppTheme(isThemeDark ? 1 : 0);
                 recreate();
             }
         });

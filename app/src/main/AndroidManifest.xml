@@ -33,6 +33,10 @@
         <activity
             android:name=".WebActivity"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".SavedNewsActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

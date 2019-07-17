@@ -11,8 +11,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:padding="5dp"
-        android:paddingTop="7dp"
-        android:tint="@color/colorAccent" />
+        android:paddingTop="7dp" />
 
     <TextView
         android:id="@+id/listTitle"
@@ -20,7 +19,6 @@
         android:layout_height="wrap_content"
         android:paddingLeft="5dp"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="@color/colorAccent" />
+        android:paddingBottom="10dp" />
 </LinearLayout>
 

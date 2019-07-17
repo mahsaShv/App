@@ -362,6 +362,24 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return newss;
     }
 
+    public ArrayList<News> getSavedNews() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor result = db.rawQuery("select * from " + SAVED_NEWS_TABLE_NAME + ";", null);
+        ArrayList<News> newss = new ArrayList<>();
+        for (result.moveToFirst(); !result.isAfterLast(); result.moveToNext()) {
+            News news = new News();
+            news.setId(result.getInt(0));
+            news.setTitle(result.getString(1));
+            news.setDate(result.getString(2));
+            news.setLink(result.getString(3));
+            news.setWebsiteID(result.getInt(4));
+            news.setImageAddress(result.getString(5));
+            news.setBody(result.getString(6));
+            newss.add(news);
+        }
+        return newss;
+    }
+
     public ArrayList<News> getNews(Category category) {
         ArrayList<News> news = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -381,6 +399,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
         category.setId(result.getInt(0));
         return getNews(category);
     }
+
+
 
     public void deleteNews(int webID) {
         SQLiteDatabase db = this.getWritableDatabase();

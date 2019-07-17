@@ -46,12 +46,16 @@ public class MessageController {
     private MessageController(Context context) {
         this.context = context;
         storageManager = StorageManager.getInstance(context);
-        connectionManager = new ConnectionManager();
+        connectionManager = new ConnectionManager(context);
 
     }
 
     public void getNews(Category category , List<News> rssItems, ArrayList<HashMap<String, String>> rssItemList ) {
         ArrayList<Website> websites  = storageManager.getWebsites(category);
+
+
+//        System.out.println(websites.size()+"ddddddd");
+
         rssItemList.clear();
         rssItems.clear();
 

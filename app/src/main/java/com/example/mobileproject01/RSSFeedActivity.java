@@ -31,6 +31,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -95,7 +96,8 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         if (id == R.id.edit) {
             // Handle the camera action
         } else if (id == R.id.saved) {
-
+            Intent i = new Intent(this, SavedNewsActivity.class);
+            startActivity(i);
         } else if (id == R.id.navCategories) {
             Intent i = new Intent(this, CategroiesActivity.class);
             startActivity(i);
@@ -126,8 +128,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     private RecyclerView.LayoutManager layoutManager;
     private DividerItemDecoration dividerItem;
     private Category shown_category = new Category();
-    private LocationManager locationManager;
-    private String provider;
     SwipeRefreshLayout swipeRefreshLayout;
 
     private ListView lv;
@@ -137,6 +137,18 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        if (Constant.getAppTheme() == 1) {
+            setTheme(R.style.AppTheme);
+        } else setTheme(R.style.AppThemeLight);
+
+        if (Constant.isChangeMain()) {
+            Log.d("Arvin", "onCreate: ");
+            Constant.changeMain = false;
+        }
+
+
         setContentView(R.layout.activity_rssfeed);
 
 
@@ -193,12 +205,10 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         messageController = MessageController.getInstance(this);
         notificationCenter.register(this);
 
-        if (messageController.storageManager.categoryTableIsEmpty()) {
+        if (messageController.storageManager.categoryTableIsEmpty())
             readCategoriesFromFile(this);
-        }
-        if (messageController.storageManager.websiteTableIsEmpty()) {
+        if (messageController.storageManager.websiteTableIsEmpty())
             readWebsitesFromFile(this);
-        }
 
         shown_category.setId(8);
         shown_category.setTitle("Cinema");
@@ -264,9 +274,10 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         String menuItemName = menuItems[menuItemIndex];
         News listItemNews = rssItems.get(info.position);
 
+
         switch (item.getItemId()) {
             case R.id.share_news:
-                Toast.makeText(this, "Shared" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Shared", Toast.LENGTH_SHORT).show();
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, listItemNews.getLink());
@@ -412,8 +423,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
             System.out.println("category :      " + shown_category.getTitle());
 
 
-
-
 //                        String rss_url = args[0];
             // list of rss items
 //            RSSParser rssParser = new RSSParser();
@@ -446,17 +455,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 //            }
 
 
-
-
-
-
-
-
-
-
-
-
-
             // updating UI from Background Thread
             runOnUiThread(new Runnable() {
                 public void run() {
@@ -483,11 +481,21 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Constant.getAppTheme() == 1)
+            setTheme(R.style.AppTheme);
+        else setTheme(R.style.AppThemeLight);
+
+//        recreate();
+
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        messageController.storageManager.deleteCategories();
-        messageController.storageManager.deleteWebsites();
+//        messageController.storageManager.deleteCategories();
+//        messageController.storageManager.deleteWebsites();
     }
 }

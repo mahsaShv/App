@@ -5,8 +5,5 @@
     <color name="colorAccent">#d65a31</color>
     <color name="activityBackground">#222831</color>
     <color name="topic_text">#e76b42</color>
-    <color name="colorPrimaryLight">#38470b</color>
-    <color name="colorPrimaryDarkLight">#a0855b</color>
-    <color name="colorAccentLight">#f1d6ab</color>
-    <color name="activityBackgroundLight">#f9f6f2</color>
+
 </resources>

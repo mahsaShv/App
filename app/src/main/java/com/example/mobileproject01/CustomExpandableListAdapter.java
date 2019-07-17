@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,12 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         }
         Switch expandedListTextView = (Switch) convertView
                 .findViewById(R.id.expandedListItem);
+        if (Constant.getAppTheme() == 1)
+            expandedListTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
+        else
+            expandedListTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryLight, context.getTheme()));
+
+
         String corrected = expandedListText;
         expandedListTextView.setChecked((corrected.charAt(corrected.length() - 1) == '1') ? true : false);
         corrected = expandedListText.replace("_", " ");
@@ -108,6 +115,13 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.listTitle);
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
+        if (Constant.getAppTheme() == 1) {
+            imageView.setColorFilter(context.getResources().getColor(R.color.colorAccent, context.getTheme()), PorterDuff.Mode.SRC_ATOP);
+            listTitleTextView.setTextColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
+        } else {
+            imageView.setColorFilter(context.getResources().getColor(R.color.colorAccentLight, context.getTheme()), PorterDuff.Mode.SRC_ATOP);
+            listTitleTextView.setTextColor(context.getResources().getColor(R.color.colorAccentLight, context.getTheme()));
+        }
         return convertView;
     }
 

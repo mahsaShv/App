@@ -26,6 +26,7 @@ public class StorageManager {
     public DatabaseManager databaseManager;
 
 
+
     public static StorageManager getInstance(Context context) {
         if (SINGLE_INSTANCE == null) {
             synchronized (StorageManager.class) {
@@ -100,6 +101,55 @@ public class StorageManager {
 
 
     }
+
+    ArrayList<News> getSavedNews() {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        final ArrayList<News> news = new ArrayList<>();
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                news.addAll(databaseManager.getSavedNews());
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return news;
+
+    }
+
+    ArrayList<Website> getAllWebsites() {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        final ArrayList<Website> websites = new ArrayList<>();
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                websites.addAll(databaseManager.getAllWebsites());
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return websites;
+
+    }
+
 
 
     boolean categoryTableIsEmpty() {
