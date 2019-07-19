@@ -3,13 +3,13 @@ package com.example.mobileproject01;
 public class Constant {
     static int appTheme = 1;
 
-    static boolean changeMain = false;
+    static int changeMain = 0;
 
-    public static void setChangeMain(boolean changeMain) {
+    public static void setChangeMain(int changeMain) {
         Constant.changeMain = changeMain;
     }
 
-    public static boolean isChangeMain() {
+    public static int getChangeMain() {
         return changeMain;
     }
 

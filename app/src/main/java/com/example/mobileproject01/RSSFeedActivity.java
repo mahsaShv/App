@@ -48,6 +48,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -142,6 +143,7 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     private RecyclerView.LayoutManager layoutManager;
     private DividerItemDecoration dividerItem;
     private Category shown_category = new Category();
+    private boolean isThemeDark = true;
     SwipeRefreshLayout swipeRefreshLayout;
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 100;
 
@@ -155,21 +157,20 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         super.onCreate(savedInstanceState);
 
 
-
-
-
-//        if (Constant.getAppTheme() == 1) {
-//            setTheme(R.style.AppTheme);
-//        } else setTheme(R.style.AppThemeLight);
-
-        if (Constant.isChangeMain()) {
-            Log.d("Arvin", "onCreate: ");
-            Constant.changeMain = false;
+        if (Constant.getAppTheme() == 1) {
+            setTheme(R.style.AppTheme);
+            isThemeDark = true;
+        } else {
+            setTheme(R.style.AppThemeLight);
+            isThemeDark = false;
         }
-
-
         setContentView(R.layout.activity_rssfeed);
 
+        LinearLayout ll = (LinearLayout) findViewById(R.id.ll);
+        ll.setBackgroundColor(isThemeDark ? getResources().getColor(R.color.activityBackground, this.getTheme()) : getResources().getColor(R.color.activityBackgroundLight, this.getTheme()));
+
+        RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeLayout);
+        rl.setBackgroundColor(isThemeDark ? getResources().getColor(R.color.activityBackground, this.getTheme()) : getResources().getColor(R.color.activityBackgroundLight, this.getTheme()));
 
         lv = (ListView) findViewById(android.R.id.list);
 
@@ -303,7 +304,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         News listItemNews = rssItems.get(info.position);
-
 
         switch (item.getItemId()) {
             case R.id.share_option:
@@ -467,6 +467,7 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
                             rssItemList, R.layout.rss_item_list_row,
                             new String[]{TAG_LINK, TAG_TITLE, TAG_PUB_DATE},
                             new int[]{R.id.page_url, R.id.title, R.id.pub_date});
+
 
                     // updating listview
                     lv.setAdapter(adapter);

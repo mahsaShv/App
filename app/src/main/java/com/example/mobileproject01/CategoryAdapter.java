@@ -17,8 +17,9 @@ import java.util.ArrayList;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
     private ArrayList<Category> mDataset;
-    private Context context;
+    private static Context context;
     NotificationCenter notificationCenter;
+    private static boolean isThemeDark = true;
 
     private ArrayList<Category> c = new ArrayList<>();
 
@@ -29,14 +30,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.topic_title);
+            title.setBackgroundColor(isThemeDark ? context.getResources().getColor(R.color.colorPrimaryDark, context.getTheme())
+                    : context.getResources().getColor(R.color.colorPrimaryDarkLight, context.getTheme()));
         }
     }
 
-    public CategoryAdapter(Context context, ArrayList<Category> myDataset, Category category, NotificationCenter notificationCenter) {
-        this.context = context;
+    public CategoryAdapter(Context con, ArrayList<Category> myDataset,
+                           Category category, NotificationCenter notificationCenter) {
+        context = con;
         mDataset = myDataset;
         this.notificationCenter = notificationCenter;
-
+        isThemeDark = Constant.getAppTheme() == 1;
         c.add(category);
     }
 
@@ -51,7 +55,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder viewHolder, int i) {
         Category category = mDataset.get(i);
-        int imgsrc = this.context.getResources().getIdentifier("@drawable/" + category.getTitle().toLowerCase(), null, this.context.getPackageName());
+        int imgsrc = this.context.getResources().getIdentifier("@drawable/" + category.getTitle().toLowerCase(),
+                null, this.context.getPackageName());
         viewHolder.title.setImageResource(imgsrc);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

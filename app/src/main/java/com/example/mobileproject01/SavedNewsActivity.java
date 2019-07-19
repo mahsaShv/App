@@ -25,9 +25,6 @@ import cz.msebera.android.httpclient.ParseException;
 public class SavedNewsActivity extends AppCompatActivity {
 
 
-
-
-
     private MessageController messageController;
 
     private ProgressBar pDialog;
@@ -45,8 +42,13 @@ public class SavedNewsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rssfeed);
 
+        if (Constant.getAppTheme() == 1) {
+            setTheme(R.style.AppTheme);
+        } else setTheme(R.style.AppThemeLight);
+
+
+        setContentView(R.layout.activity_rssfeed);
 
         messageController = MessageController.getInstance(this);
         lv = (ListView) findViewById(android.R.id.list);
@@ -65,18 +67,7 @@ public class SavedNewsActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
     }
-
-
-
-
-
-
 
 
     public class LoadRSSFeedItems extends AsyncTask<String, String, String> {
@@ -102,7 +93,6 @@ public class SavedNewsActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... args) {
-
 
 
 //            String rss_url = args[0];

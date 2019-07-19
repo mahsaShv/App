@@ -19,7 +19,6 @@
         android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/activityBackground"
         android:orientation="vertical"
         tools:context=".RSSFeedActivity">
 
@@ -39,7 +38,6 @@
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/activityBackground"
             android:orientation="vertical"
             android:padding="3dp"
             android:paddingTop="1dp">
