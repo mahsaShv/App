@@ -3,5 +3,6 @@
     <string-array name="menu">
         <item>Share</item>
         <item>Save</item>
+
     </string-array>
 </resources>

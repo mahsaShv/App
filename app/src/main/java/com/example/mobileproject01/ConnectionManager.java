@@ -53,6 +53,7 @@ public class ConnectionManager implements LocationListener {
         Runnable task = new Runnable() {
             @Override
             public void run() {
+                city = getLocationCity();
 //                System.out.println("city:   "+getLocationCity());
 
 
@@ -81,8 +82,8 @@ public class ConnectionManager implements LocationListener {
         funcOnAnotherThread();
 
 
-//        if (websites.size() == 0 )
-//            return;
+        if (websites.size() == 0 )
+            return;
 
 //        System.out.println(getLocationCity()+"mahsaaaaa");
 

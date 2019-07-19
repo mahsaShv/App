@@ -1,5 +1,6 @@
 package com.example.mobileproject01;
 
+import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.content.ContentValues;
 import android.content.SharedPreferences;
@@ -26,6 +27,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatCallback;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.view.ActionMode;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -139,9 +142,9 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         super.onCreate(savedInstanceState);
 
 
-        if (Constant.getAppTheme() == 1) {
-            setTheme(R.style.AppTheme);
-        } else setTheme(R.style.AppThemeLight);
+//        if (Constant.getAppTheme() == 1) {
+//            setTheme(R.style.AppTheme);
+//        } else setTheme(R.style.AppThemeLight);
 
         if (Constant.isChangeMain()) {
             Log.d("Arvin", "onCreate: ");
@@ -251,16 +254,22 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
     }
 
+
+    @SuppressLint("RestrictedApi")
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
 
         if (v.getId() == android.R.id.list) {
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-            String[] menuItems = getResources().getStringArray(R.array.menu);
-            for (int i = 0; i < menuItems.length; i++) {
-                menu.add(Menu.NONE, i, i, menuItems[i]);
-            }
+//            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+//            String[] menuItems = getResources().getStringArray(R.array.menu);
+//            for (int i = 0; i < menuItems.length; i++) {
+//                menu.add(Menu.NONE, i, i, menuItems[i]);
+//            }
+
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.contextmenu, menu);
+
         }
 
     }
@@ -269,23 +278,24 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     public boolean onContextItemSelected(MenuItem item) {
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        int menuItemIndex = item.getItemId();
-        String[] menuItems = getResources().getStringArray(R.array.menu);
-        String menuItemName = menuItems[menuItemIndex];
+//        int menuItemIndex = item.getItemId();
+//        String[] menuItems = getResources().getStringArray(R.array.menu);
+//        String menuItemName = menuItems[menuItemIndex];
         News listItemNews = rssItems.get(info.position);
 
 
         switch (item.getItemId()) {
-            case R.id.share_news:
-                Toast.makeText(this, "Shared", Toast.LENGTH_SHORT).show();
+            case R.id.share_option:
+//                Toast.makeText(this, "Shared", Toast.LENGTH_SHORT).show();
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, listItemNews.getLink());
                 sendIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
                 return true;
-            case R.id.save_news:
+            case R.id.save_option:
                 Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+                System.out.println(listItemNews.getTitle());
                 messageController.storageManager.saveNews(listItemNews);
                 return true;
             default:
@@ -484,9 +494,9 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     @Override
     public void onResume() {
         super.onResume();
-        if (Constant.getAppTheme() == 1)
-            setTheme(R.style.AppTheme);
-        else setTheme(R.style.AppThemeLight);
+//        if (Constant.getAppTheme() == 1)
+//            setTheme(R.style.AppTheme);
+//        else setTheme(R.style.AppThemeLight);
 
 //        recreate();
 
