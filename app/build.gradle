@@ -50,4 +50,5 @@ dependencies {
     implementation 'cz.msebera.android:httpclient:4.4.1.2'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.google.android.gms:play-services-location:11.6.0'
 }

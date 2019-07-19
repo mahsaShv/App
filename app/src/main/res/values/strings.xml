@@ -14,7 +14,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="send_to">Send to</string>
+    <string name="send_to">Send to...</string>
 
     <color name="colorPrimaryLight">#38470b</color>
     <color name="colorPrimaryDarkLight">#a0855b</color>

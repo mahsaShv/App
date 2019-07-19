@@ -13,6 +13,6 @@
 13 NY_Times 2 https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml 1
 14 XBox_News 4 https://news.xbox.com/en-us/feed/ 0
 15 Game_Informer 4 https://www.gameinformer.com/rss.xml 1
-16 Tree_Hugger 3 https://www.treehugger.com/feeds/latest 1
+16 Inhabitat 3 https://inhabitat.com/environment/feed/ 1
 17 Mother_Nature_Network 3 https://www.mnn.com/rss/all-mnn-content 0
 18 Google_News 5 https://news.google.com/rss/search?q=%3Ctext%3E&hl=en-US&gl=US&ceid=US:en 1

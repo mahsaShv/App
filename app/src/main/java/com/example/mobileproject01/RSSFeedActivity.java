@@ -1,9 +1,13 @@
 package com.example.mobileproject01;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.ContentValues;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Icon;
 import android.content.Context;
@@ -19,7 +23,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -97,7 +103,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         int id = item.getItemId();
 
         if (id == R.id.edit) {
-            // Handle the camera action
         } else if (id == R.id.saved) {
             Intent i = new Intent(this, SavedNewsActivity.class);
             startActivity(i);
@@ -105,6 +110,12 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
             Intent i = new Intent(this, CategroiesActivity.class);
             startActivity(i);
         } else if (id == R.id.share) {
+
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Download RSS Reader -Follow specific channels and publications to keep you up to date!");
+            sendIntent.setType("text/plain");
+            startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
 
         } else if (id == R.id.settings) {
             Intent i = new Intent(this, SettingsActivity.class);
@@ -132,6 +143,8 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     private DividerItemDecoration dividerItem;
     private Category shown_category = new Category();
     SwipeRefreshLayout swipeRefreshLayout;
+    private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 100;
+
 
     private ListView lv;
 
@@ -140,6 +153,9 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
 
 
 //        if (Constant.getAppTheme() == 1) {
@@ -164,14 +180,12 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-//                        countDownLatch = new CountDownLatch(1);
                         doYourUpdate();
                     }
                 }
         );
 
 
-//        System.out.println("city:      " + getLocationCity());
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -252,20 +266,30 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         registerForContextMenu(lv);
 
 
+
+
+
+
+
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    this, // Activity
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+        }
+
+
     }
 
 
-    @SuppressLint("RestrictedApi")
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
 
         if (v.getId() == android.R.id.list) {
-//            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-//            String[] menuItems = getResources().getStringArray(R.array.menu);
-//            for (int i = 0; i < menuItems.length; i++) {
-//                menu.add(Menu.NONE, i, i, menuItems[i]);
-//            }
 
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.contextmenu, menu);
@@ -278,15 +302,11 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     public boolean onContextItemSelected(MenuItem item) {
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-//        int menuItemIndex = item.getItemId();
-//        String[] menuItems = getResources().getStringArray(R.array.menu);
-//        String menuItemName = menuItems[menuItemIndex];
         News listItemNews = rssItems.get(info.position);
 
 
         switch (item.getItemId()) {
             case R.id.share_option:
-//                Toast.makeText(this, "Shared", Toast.LENGTH_SHORT).show();
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, listItemNews.getLink());
@@ -333,33 +353,7 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         }
     }
 
-//    private String getLocationCity() {
-//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        Criteria criteria = new Criteria();
-//        provider = locationManager.getBestProvider(criteria, false);
-//        Location location = null;
-//        try {
-//            location = locationManager.getLastKnownLocation(provider);
-//        } catch (SecurityException e) {
-//            e.getStackTrace();
-//        }
-//        String city = "";
-//        if (location != null) {
-//            double lat = location.getLatitude();
-//            double lng = location.getLongitude();
-//            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-//            try {
-//                List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-//                city = addresses.get(0).getAddressLine(0);
-//            } catch (IOException e) {
-//                e.getStackTrace();
-//            }
-//
-//        }
-//
-//        return city;
-//
-//    }
+
 
     private void readCategoriesFromFile(Context context) {
         final Resources resources = context.getResources();
@@ -430,13 +424,13 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         protected String doInBackground(String... args) {
 
             messageController.getNews(shown_category, rssItems, rssItemList);
-            System.out.println("category :      " + shown_category.getTitle());
+//            System.out.println("category :      " + shown_category.getTitle());
 
 
 //                        String rss_url = args[0];
             // list of rss items
 //            RSSParser rssParser = new RSSParser();
-//            rssItems = rssParser.getRSSFeedItems("https://news.google.com/rss/search?q=%3Ctext%3E&hl=en-US&gl=US&ceid=US:en".replace("text" , "iran"));
+//            rssItems = rssParser.getRSSFeedItems("https://inhabitat.com/environment/feed/");
 //            // looping through each item
 //            for (final News item : rssItems) {
 //                // creating new HashMap
@@ -476,9 +470,13 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
                     // updating listview
                     lv.setAdapter(adapter);
+                    swipeRefreshLayout.setRefreshing(false);
+
+                    Toast.makeText(RSSFeedActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+
                 }
             });
-            swipeRefreshLayout.setRefreshing(false);
+
 
 
             return null;
@@ -505,7 +503,26 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        messageController.storageManager.deleteCategories();
-//        messageController.storageManager.deleteWebsites();
+    }
+
+
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_FINE_LOCATION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    messageController.connectionManager.funcOnAnotherThread();
+
+                } else {
+                    // permission was denied
+                }
+                return;
+            }
+        }
     }
 }
