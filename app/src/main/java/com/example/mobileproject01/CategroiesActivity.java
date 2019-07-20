@@ -33,7 +33,7 @@ public class CategroiesActivity extends AppCompatActivity {
 //        appTheme = preferences.getInt("Theme", 0);
 
 
-        if (Constant.getAppTheme() == 1)
+        if (messageController.storageManager.getTheme() == 1)
             setTheme(R.style.AppTheme);
         else setTheme(R.style.AppThemeLight);
 

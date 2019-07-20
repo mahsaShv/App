@@ -157,7 +157,7 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         super.onCreate(savedInstanceState);
 
 
-        if (Constant.getAppTheme() == 1) {
+        if (messageController.storageManager.getTheme() == 1) {
             setTheme(R.style.AppTheme);
             isThemeDark = true;
         } else {
@@ -185,8 +185,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
                     }
                 }
         );
-
-
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -265,12 +263,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         });
 
         registerForContextMenu(lv);
-
-
-
-
-
-
 
 
         if (ContextCompat.checkSelfPermission(this,
@@ -352,7 +344,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
         }
     }
-
 
 
     private void readCategoriesFromFile(Context context) {
@@ -479,7 +470,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
             });
 
 
-
             return null;
         }
 
@@ -505,9 +495,6 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     protected void onDestroy() {
         super.onDestroy();
     }
-
-
-
 
 
     @Override

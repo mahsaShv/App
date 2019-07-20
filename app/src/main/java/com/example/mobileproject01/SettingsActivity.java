@@ -13,14 +13,18 @@ import android.widget.Switch;
 
 public class SettingsActivity extends AppCompatActivity {
     private Button themeSwitcher;
-    private static boolean isThemeDark = true;
+    private static boolean isThemeDark;
     private Context con;
+    private MessageController messageController;
 //    SharedPreferences preferences;
 //    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         con = this;
+        messageController = MessageController.getInstance(con);
+
+        isThemeDark = messageController.storageManager.getTheme() == 1;
 
         super.onCreate(savedInstanceState);
         if (isThemeDark)
@@ -39,6 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 isThemeDark = !isThemeDark;
                 Constant.setChangeMain(1);
+                messageController.storageManager.setTheme(isThemeDark? 1 : 0);
                 Constant.setAppTheme(isThemeDark ? 1 : 0);
                 Intent i = new Intent(con, RSSFeedActivity.class);
                 startActivity(i);

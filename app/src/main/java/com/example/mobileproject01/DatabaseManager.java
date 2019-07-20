@@ -18,6 +18,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public static String NEWS_TABLE_NAME = "news";
     public static String SAVED_NEWS_TABLE_NAME = "savedNews";
     public static String USER_TABLE_NAME = "users";
+    public static String THEME_TABLE_NAME = "theme";
 
     public static DatabaseManager getInstance(Context context) {
         if (SINGLE_INSTANCE == null) {
@@ -36,6 +37,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL("create table if not exists " + NEWS_TABLE_NAME + " (id integer primary key, title varchar(100), date varchar(50), link varchar(100), websiteID int, imageAddress varchar(100), body varchar(500));");
         db.execSQL("create table if not exists " + SAVED_NEWS_TABLE_NAME + " (id integer primary key autoincrement, title varchar(100), date varchar(10), link varchar(100), websiteID int, imageAddress varchar(100), body varchar(500));");
         db.execSQL("create table if not exists " + USER_TABLE_NAME + " (id integer primary key autoincrement, username varachar(100), password int, emailAddress varchar(100), isInUse int);");
+        db.execSQL("create table if not exists " + THEME_TABLE_NAME + " (id integer primary key);");
 
     }
 
@@ -59,6 +61,33 @@ public class DatabaseManager extends SQLiteOpenHelper {
         contentValues.put("emailAddress", user.getEmailAddress());
         db.insert(USER_TABLE_NAME, null, contentValues);
         contentValues.clear();
+    }
+
+    public void deleteTheme() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + THEME_TABLE_NAME + ";");
+    }
+
+    public void insertTheme(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("id", id);
+        db.insert(THEME_TABLE_NAME, null, contentValues);
+        contentValues.clear();
+    }
+
+    public int getTheme() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor result = db.rawQuery("select * from " + THEME_TABLE_NAME + ";", null);
+        int theme;
+        if(result.getCount() == 0) {
+            insertTheme(1);
+        }
+        result = db.rawQuery("select * from " + THEME_TABLE_NAME + ";", null);
+        result.moveToFirst();
+        theme = result.getInt(0);
+
+        return theme;
     }
 
     public void reinsertUser(User user) {

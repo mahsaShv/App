@@ -43,7 +43,7 @@ public class SavedNewsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Constant.getAppTheme() == 1) {
+        if (messageController.storageManager.getTheme() == 1) {
             setTheme(R.style.AppTheme);
         } else setTheme(R.style.AppThemeLight);
 

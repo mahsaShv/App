@@ -102,6 +102,40 @@ public class StorageManager {
 
     }
 
+    void setTheme(int theme) {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                databaseManager.deleteTheme();
+                databaseManager.insertTheme(theme);
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    int getTheme() {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+
+        return databaseManager.getTheme();
+
+    }
+
+
+
     ArrayList<News> getSavedNews() {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final ArrayList<News> news = new ArrayList<>();
