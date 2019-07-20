@@ -16,10 +16,10 @@
 
     <string name="send_to">Send to...</string>
 
-    <color name="colorPrimaryLight">#38470b</color>
-    <color name="colorPrimaryDarkLight">#a0855b</color>
-    <color name="colorAccentLight">#f1d6ab</color>
-    <color name="activityBackgroundLight">#f9f6f2</color>
+    <color name="colorPrimaryLight">#dff0ea</color>
+    <color name="colorPrimaryDarkLight">#95adbe</color>
+    <color name="colorAccentLight">#574f7d</color>
+    <color name="activityBackgroundLight">#4f3a65</color>
 
     <color name="border">#393e46</color>
     <string name="title_activity_category_settings">Settings</string>
