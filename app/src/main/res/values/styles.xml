@@ -20,13 +20,13 @@
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <!--<item name="actionBarStyle">@style/MyActionBar</item>-->
-        <item name="colorPrimary">@color/colorPrimaryLight</item>
+        <item name="colorPrimary">@color/colorAccentLight</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkLight</item>
-        <item name="colorAccent">@color/colorAccentLight</item>
+        <item name="colorAccent">@color/colorPrimaryLight</item>
         <item name="android:windowBackground">@color/activityBackgroundLight</item>
 
-        <item name="android:itemBackground">@color/colorPrimaryDarkLight</item>
-        <item name="android:textColor">@color/colorAccentLight</item>
+        <item name="android:itemBackground">@color/colorAccentLight</item>
+        <item name="android:textColor">@color/colorPrimaryLight</item>
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

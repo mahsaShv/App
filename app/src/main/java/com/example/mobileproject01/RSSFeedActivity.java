@@ -172,6 +172,8 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.relativeLayout);
         rl.setBackgroundColor(isThemeDark ? getResources().getColor(R.color.activityBackground, this.getTheme()) : getResources().getColor(R.color.activityBackgroundLight, this.getTheme()));
 
+//        NavigationView navigationView = findViewById(R.id.nav_view);
+
         lv = (ListView) findViewById(android.R.id.list);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
@@ -210,6 +212,9 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        navigationView.setItemTextColor(isThemeDark ? getResources().getColorStateList(R.color.nav_view_list_item_dark, getTheme()) : getResources().getColorStateList(R.color.colorPrimaryLight, this.getTheme()));
+
 
         Menu menu = navigationView.getMenu();
         MenuItem others = menu.findItem(R.id.other);

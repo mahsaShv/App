@@ -33,13 +33,13 @@ public class CategroiesActivity extends AppCompatActivity {
 //        appTheme = preferences.getInt("Theme", 0);
 
 
-        if (messageController.storageManager.getTheme() == 1)
+        messageController = MessageController.getInstance(this);
+        if (messageController.storageManager.getTheme() == 1) {
             setTheme(R.style.AppTheme);
-        else setTheme(R.style.AppThemeLight);
+        } else setTheme(R.style.AppThemeLight);
 
 
         setContentView(R.layout.activity_categroies);
-        messageController = MessageController.getInstance(this);
         expandableListView = (ExpandableListView) findViewById(R.id.exandable_list_view);
         expandableListDetail = messageController.storageManager.getAllCategoriesAndWebsites();
         expandableListDetail.remove("NearYou");

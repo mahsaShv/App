@@ -15,8 +15,9 @@
 
     </group>
 
-    <item android:title="Other"
-        android:id="@+id/other">
+    <item
+        android:id="@+id/other"
+        android:title="Other">
         <menu>
             <item
                 android:id="@+id/navCategories"

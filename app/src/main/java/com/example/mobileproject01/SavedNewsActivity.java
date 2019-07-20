@@ -43,6 +43,7 @@ public class SavedNewsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        messageController = MessageController.getInstance(this);
         if (messageController.storageManager.getTheme() == 1) {
             setTheme(R.style.AppTheme);
         } else setTheme(R.style.AppThemeLight);
@@ -50,7 +51,6 @@ public class SavedNewsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_rssfeed);
 
-        messageController = MessageController.getInstance(this);
         lv = (ListView) findViewById(android.R.id.list);
 
         new SavedNewsActivity.LoadRSSFeedItems().execute("");

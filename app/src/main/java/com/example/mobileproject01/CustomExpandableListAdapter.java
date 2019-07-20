@@ -53,7 +53,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         }
         Switch expandedListTextView = (Switch) convertView
                 .findViewById(R.id.expandedListItem);
-        if (Constant.getAppTheme() == 1)
+        if (messageController.storageManager.getTheme() == 1)
             expandedListTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
         else
             expandedListTextView.setTextColor(context.getResources().getColor(R.color.colorPrimaryLight, context.getTheme()));
@@ -115,7 +115,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.listTitle);
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
-        if (Constant.getAppTheme() == 1) {
+        if (messageController.storageManager.getTheme() == 1) {
             imageView.setColorFilter(context.getResources().getColor(R.color.colorAccent, context.getTheme()), PorterDuff.Mode.SRC_ATOP);
             listTitleTextView.setTextColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
         } else {
