@@ -401,7 +401,7 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressBar(RSSFeedActivity.this, null, android.R.attr.progressBarStyleLarge);
-            pDialog.getIndeterminateDrawable().setColorFilter(0xFFd65a31, android.graphics.PorterDuff.Mode.MULTIPLY);
+            pDialog.getIndeterminateDrawable().setColorFilter(isThemeDark ? 0xFFd65a31 : 0xFF574f7d, android.graphics.PorterDuff.Mode.MULTIPLY);
 
 
             RelativeLayout relativeLayout = findViewById(R.id.relativeLayout);
