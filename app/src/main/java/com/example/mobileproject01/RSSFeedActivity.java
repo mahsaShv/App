@@ -155,7 +155,7 @@ public class RSSFeedActivity extends AppCompatActivity implements Observer, Navi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        messageController = MessageController.getInstance(this);
 
         if (messageController.storageManager.getTheme() == 1) {
             setTheme(R.style.AppTheme);
