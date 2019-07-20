@@ -102,6 +102,30 @@ public class StorageManager {
 
     }
 
+    void unsaveNews(News news) {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+
+
+        storage.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+                databaseManager.unsaveNews(news);
+                countDownLatch.countDown();
+
+            }
+        });
+
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     void setTheme(int theme) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
 

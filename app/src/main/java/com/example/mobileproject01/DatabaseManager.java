@@ -353,7 +353,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void saveNews(News news) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("id", news.getId());
         contentValues.put("title", news.getTitle());
         contentValues.put("date", news.getDate());
         contentValues.put("link", news.getLink());
@@ -363,6 +362,11 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.insert(SAVED_NEWS_TABLE_NAME, null, contentValues);
 
         contentValues.clear();
+    }
+
+    public void unsaveNews(News news) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + SAVED_NEWS_TABLE_NAME + " where title == " + "\"" + news.getTitle() + "\";");
     }
 
     public void fillNewsSaved(ArrayList<News> news) {
